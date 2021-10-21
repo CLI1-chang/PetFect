@@ -2,3 +2,6 @@
 .DS_Store
 .idea/
 __pycache__/app.cpython-38.pyc
+*.pyc
+*.pyc
+__pycache__/app.cpython-38.pyc
