@@ -22,3 +22,13 @@ def index():
     return render_template('index.html',
                            form=form, name=session.get('name'),
                            known=session.get('known', False))
+
+
+@main.route('/about')
+def about():
+    return render_template("about.html")
+
+
+@main.route('/animal')
+def animal():
+    return render_template("animal.html")
