@@ -7,8 +7,14 @@ Install Instruction:
 3. Activate virtual environment
   - Linux/OS: source venv/bin/activate 	 	 		
   - Windows: venv\Scripts\activate
+
 After activate, terminal will show: (venv) $
 If use IDE, check out if the virtual environment is active or not
+
 4. In venv mode, 
   - pip install -r requirement.txt
-  - run manager.py in IDE
+  - run manage.py in IDE
+  - If use terminal instead of IDE:
+      - Export FLASK_APP=manage
+      - export FLASK_ENV=development
+      - Flask run
