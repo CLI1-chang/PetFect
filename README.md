@@ -10,6 +10,7 @@ Install Instruction:
 
 After activate, terminal will show: (venv) $
 If use IDE, check out if the virtual environment is active or not
+
 4. In venv mode, 
   - pip install -r requirement.txt
   - run manage.py in IDE
