@@ -13,7 +13,7 @@ class MultiCheckboxField(SelectMultipleField):
 
 
 dispositions = [('1','Good with other animals'), ('2','Good with children'), ('3','Animal must be leashed at all times')]
-avail_status = [('1','Not Available'), ('2','Good with children'), ('3','Pending'),('4','Adopted') ]
+avail_status = [('1','Not Available'), ('2','Available'), ('3','Pending'),('4','Adopted') ]
 animal_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
 breed_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
 class AnimalForm(FlaskForm):

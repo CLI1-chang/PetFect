@@ -15,20 +15,21 @@ class Role(db.Model):
 
 
 class Amimal(db.Model):
-    __tablename__ = 'Animals'
+    __tablename__ = 'animals'
     ## primary key of animal
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True, nullable= False)
-    type = db.Column(db.String(64), unique=True, nullable= False)
-    breed = db.Column(db.String(64), unique=True, nullable= False)
-    disposition = db.Column(db.String(64), unique=True, nullable= False)
-    availability = db.Column(db.String(64), unique=True, nullable= False)
-    description = db.Column(db.String(200), unique=True, nullable= False)
+    name = db.Column(db.String(64), nullable= False)
+    type = db.Column(db.String(64),  nullable= False)
+    breeds = db.Column(db.String(64), nullable= False)
+    #check box
+    disposition = db.Column(db.String(64),nullable= False)
+    availability = db.Column(db.String(64), nullable= False)
+    description = db.Column(db.String(200), nullable= False)
     # need to add in description
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
     """ users = db.relationship('User', backref='role', lazy='dynamic')"""
     def __repr__(self):
-        return '<Animal %r>' % self.id 
+        return '<Animal %r>' % self.name
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
