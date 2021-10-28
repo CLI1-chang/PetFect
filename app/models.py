@@ -1,6 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import db, login_manager
+from datetime import datetime
 
 
 class Role(db.Model):
@@ -12,6 +13,22 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
+
+class Amimal(db.Model):
+    __tablename__ = 'Animals'
+    ## primary key of animal
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True, nullable= False)
+    type = db.Column(db.String(64), unique=True, nullable= False)
+    breed = db.Column(db.String(64), unique=True, nullable= False)
+    disposition = db.Column(db.String(64), unique=True, nullable= False)
+    availability = db.Column(db.String(64), unique=True, nullable= False)
+    description = db.Column(db.String(200), unique=True, nullable= False)
+    # need to add in description
+    data_created = db.Column(db.DateTime, default=datetime.utcnow)
+    """ users = db.relationship('User', backref='role', lazy='dynamic')"""
+    def __repr__(self):
+        return '<Animal %r>' % self.id 
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'

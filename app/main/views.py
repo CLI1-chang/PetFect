@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, url_for
 from . import main
 from .. import db
 from ..models import User
-from .forms import NameForm
+from .forms import NameForm, AnimalForm
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -18,3 +18,10 @@ def about():
 @main.route('/animal')
 def animal():
     return render_template("animal.html")
+
+@main.route('/admin', methods=['GET', 'POST'])
+def admin():
+    form = AnimalForm()
+    if form.validate_on_submit():
+        return 'Form successfuly submitted!'
+    return render_template('admin.html', form=form)
