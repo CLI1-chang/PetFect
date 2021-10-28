@@ -14,7 +14,6 @@ def index():
 def about():
     return render_template("about.html")
 
-
 @main.route('/animal')
 def animal():
     return render_template("animal.html")
@@ -25,3 +24,8 @@ def admin():
     if form.validate_on_submit():
         return 'Form successfuly submitted!'
     return render_template('admin.html', form=form)
+
+@main.route('/contact')
+def contact():
+    return render_template("contact.html")
+
