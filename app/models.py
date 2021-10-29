@@ -14,7 +14,7 @@ class Role(db.Model):
         return '<Role %r>' % self.name
 
 
-class Amimal(db.Model):
+class Animal(db.Model):
     __tablename__ = 'animals'
     ## primary key of animal
     id = db.Column(db.Integer, primary_key=True)
@@ -22,14 +22,16 @@ class Amimal(db.Model):
     type = db.Column(db.String(64),  nullable= False)
     breeds = db.Column(db.String(64), nullable= False)
     #check box
-    disposition = db.Column(db.String(64),nullable= False)
+    good_with_animal = db.Column(db.Boolean, nullable=False)
+    good_with_kid = db.Column(db.Boolean, nullable=False)
+    leash_required = db.Column(db.Boolean, nullable=False)
+
     availability = db.Column(db.String(64), nullable= False)
     description = db.Column(db.String(200), nullable= False)
-    # need to add in description
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
     """ users = db.relationship('User', backref='role', lazy='dynamic')"""
     def __repr__(self):
-        return '<Animal %r>' % self.name
+        return '<Animal %r>' % self.id
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'

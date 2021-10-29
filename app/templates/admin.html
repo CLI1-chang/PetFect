@@ -5,9 +5,9 @@
 <div class="page-header">
     <h1>Create A New Animal Profile</h1>
 </div>
-
 <div class="col-md-4">
     <form method="POST" enctype = "multipart/form-data">
+        {{ form.csrf_token }}
         {{ form.animal_name.label(class="form-label") }} 
         {{ form.animal_name(class="form-control")}} 
         <br>
@@ -17,9 +17,19 @@
         {{ form.breeds.label(class="form-label") }} 
         {{ form.breeds(class="form-control")}}
         <br>
-        {{form.disposition.label()}}
-        {{form.disposition(class="form-check-input")}}
-        {{ form.avail.label(class="form-label") }} 
+        <label>Disposition</label>
+        <br>
+        {{form.good_with_animal.label()}}
+        {{form.good_with_animal()}}
+        <br>
+        {{form.good_with_kid.label()}}
+        {{form.good_with_kid()}}
+        <br>
+        {{form.leash_required.label()}}
+        {{form.leash_required()}}
+        <br>
+        <br>
+        {{ form.avail.label(class="form-label") }}
         {{ form.avail(class="form-control")}}
         <br>
         {{form.image.label}}
@@ -28,10 +38,14 @@
         {{form.description.label(class="form-label") }} 
         {{form.description(class="form-control", rows = "3")}}
         <br>
-         {{form.submit()}}
+        {{form.submit()}}
    </form> 
 </div>
+<!-- <div div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div> -->
 
 <br>
+
 {% endblock %}
 

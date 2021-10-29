@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import widgets, StringField, SubmitField, SelectField,SelectMultipleField, FileField,TextAreaField
+from wtforms import widgets, StringField, SubmitField, SelectField,SelectMultipleField, FileField,TextAreaField, BooleanField
 from wtforms.validators import DataRequired
 
 
@@ -16,11 +16,15 @@ dispositions = [('1','Good with other animals'), ('2','Good with children'), ('3
 avail_status = [('1','Not Available'), ('2','Available'), ('3','Pending'),('4','Adopted') ]
 animal_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
 breed_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
+
 class AnimalForm(FlaskForm):
     animal_name = StringField('What is her/his name?',validators=[DataRequired()] )
     animal_type = SelectField('Animal Type', choices =animal_list)
-    breeds = SelectField('Breeds', choices =breed_list) 
-    disposition = MultiCheckboxField('Disposition', choices=dispositions,validators=[])
+    breeds = SelectField('Breeds', choices =breed_list)
+    good_with_animal = BooleanField('Good with other animals')
+    good_with_kid = BooleanField('Good with children')
+    leash_required = BooleanField('Animal must be leashed at all times')
+    """ disposition = MultiCheckboxField('Disposition', choices=dispositions,validators=[]) """
     avail= SelectField('Availability', choices=avail_status)
     image = FileField('Upload an image', validators=[])
     description= TextAreaField('Description',validators=[DataRequired()])

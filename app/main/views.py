@@ -1,8 +1,9 @@
-from flask import render_template, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, flash
+from wtforms.validators import DataRequired
 from . import main
 from .. import db
-from ..models import User
-from .forms import NameForm, AnimalForm
+from ..models import Animal
+from .forms import AnimalForm
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -22,7 +23,18 @@ def animal():
 def admin():
     form = AnimalForm()
     if form.validate_on_submit():
-        return 'Form successfuly submitted!'
+        animal = Animal(name=form.animal_name.data, 
+                        type=form.animal_type.data,
+                        breeds=form.breeds.data,
+                        good_with_animal=form.good_with_animal.data,
+                        good_with_kid=form.good_with_kid.data,
+                        leash_required=form.leash_required.data,
+                        availability=form.avail.data,
+                        description=form.description.data)
+        db.session.add(animal)
+        db.session.commit()
+        flash('New animal profile successfully created!')
+        return redirect(url_for('main.index'))
     return render_template('admin.html', form=form)
 
 @main.route('/contact')
