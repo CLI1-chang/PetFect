@@ -1,3 +1,8 @@
+"""
+manage: FLASK_APP
+Reference: O'Reilly Flask Web Development
+"""
+
 import os
 import click
 from app import create_app, db

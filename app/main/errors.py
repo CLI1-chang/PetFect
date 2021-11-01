@@ -1,3 +1,8 @@
+"""
+app.main errors: render 404 and 500 error pages
+Reference: O'Reilly Flask Web Development
+"""
+
 from flask import render_template
 from . import main
 

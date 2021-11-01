@@ -1,3 +1,8 @@
+"""
+main.auth views: render auth related web pages with GET POST operations
+Reference: O'Reilly Flask Web Development
+"""
+
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from . import auth

@@ -1,3 +1,8 @@
+"""
+app __init__: create app with db, bootstrap, moment, and login
+Reference: O'Reilly Flask Web Development
+"""
+
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment

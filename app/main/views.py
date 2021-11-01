@@ -1,3 +1,8 @@
+"""
+app.main views: render web pages with GET POST operations
+Reference: O'Reilly Flask Web Development
+"""
+
 from flask import render_template, session, redirect, url_for, flash
 from wtforms.validators import DataRequired
 from . import main
@@ -15,9 +20,11 @@ def index():
 def about():
     return render_template("about.html")
 
+
 @main.route('/animal')
 def animal():
     return render_template("animal.html")
+
 
 @main.route('/admin', methods=['GET', 'POST'])
 def admin():
@@ -36,6 +43,7 @@ def admin():
         flash('New animal profile successfully created!')
         return redirect(url_for('main.index'))
     return render_template('admin.html', form=form)
+
 
 @main.route('/contact')
 def contact():

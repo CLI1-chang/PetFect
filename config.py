@@ -1,3 +1,8 @@
+"""
+config: project config with development, production, testing
+Reference: O'Reilly Flask Web Development
+"""
+
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
