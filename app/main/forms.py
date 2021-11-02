@@ -42,3 +42,10 @@ class AnimalForm(FlaskForm):
     image = FileField('Upload an image', validators=[])
     description= TextAreaField('Description',validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+class NewsForm(FlaskForm):
+    news_title = StringField('What is this news about?', validators=[DataRequired()])
+    description= TextAreaField('Description',validators=[DataRequired()])
+    image = FileField('Upload an image', validators=[])
+    submit = SubmitField('Submit')

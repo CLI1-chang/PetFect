@@ -8,7 +8,7 @@ from wtforms.validators import DataRequired
 from . import main
 from .. import db
 from ..models import Animal
-from .forms import AnimalForm
+from .forms import AnimalForm, NewsForm
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -25,18 +25,21 @@ def about():
 def animal():
     return render_template("animal.html")
 
+@main.route('/contact')
+def contact():
+    return render_template("contact.html")
 
 @main.route('/admin', methods=['GET', 'POST'])
 def admin():
     form = AnimalForm()
     if form.validate_on_submit():
         animal = Animal(name=form.animal_name.data, 
-                        type=form.animal_type.data,
-                        breeds=form.breeds.data,
+                        type=dict(form.animal_type.choices).get(form.animal_type.data),
+                        breeds=dict(form.breeds.choices).get(form.breeds.data),
                         good_with_animal=form.good_with_animal.data,
                         good_with_kid=form.good_with_kid.data,
                         leash_required=form.leash_required.data,
-                        availability=form.avail.data,
+                        availability=dict(form.avail.choices).get(form.avail.data),
                         description=form.description.data)
         db.session.add(animal)
         db.session.commit()
@@ -44,8 +47,9 @@ def admin():
         return redirect(url_for('main.index'))
     return render_template('admin.html', form=form)
 
+@main.route('/news_item')
+def news_item():
+    form = NewsForm()
+    return render_template("news_item.html", form=form)
 
-@main.route('/contact')
-def contact():
-    return render_template("contact.html")
 
