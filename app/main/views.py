@@ -9,11 +9,37 @@ from . import main
 from .. import db
 from ..models import Animal
 from .forms import AnimalForm, NewsForm
+from datetime import datetime
 
+
+def add_animals_starter():
+    '''
+    Insert a few animals in the Animal table as starter data
+    '''
+    # delete all current data
+    try:
+        num_rows_deleted = db.session.query(Animal).delete()
+    except:
+        db.session.rollback()
+    starter_animals = [
+        Animal(name='Kevin', type='Dog', breeds='bulldog', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", description="Kevin is a lovely paw patrol", data_created= datetime(2021, 11, 2, 20, 31, 10)),
+        Animal(name='Snow', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)),
+        Animal(name='Tiger', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)), 
+        Animal(name='Charlie', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)), 
+        Animal(name='Mandarin', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)), 
+        Animal(name='Max', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1))   
+    ]
+    # kevin = Animal(name='Kevin', type='Dog', breeds='bulldog', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", description="Kevin is a lovely paw patrol", data_created= datetime(2021, 11, 2, 20, 31, 10))
+    # kevin = Animal(name='Kevin', type='Dog', breeds='bulldog', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", description="Kevin is a lovely paw patrol", data_created= datetime(2021, 11, 2, 20, 31, 10))
+    db.session.add_all(starter_animals)
+    db.session.commit()
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    # order_by(Animal.data_created.desc())
+    add_animals_starter()
+    new_animals = Animal.query.order_by(Animal.data_created.desc()).limit(6).all()
+    return render_template('index.html', new_animals=new_animals)
 
 
 @main.route('/about')

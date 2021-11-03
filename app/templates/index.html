@@ -15,100 +15,29 @@
             <h2 class="section-heading">Get to know our cuties</h2>
             <h3 class="section-subheading text-muted">Click on images for details.</h3>
         </div>
+        {% for new_animal in new_animals %}
         <div class="row">
             <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Animal item 1-->
+                <!-- Animal items-->
                 <div class="animal-item">
                     <a class="animal-link" data-bs-toggle="modal" href="#animalModal1">
                         <div class="animal-hover">
                             <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img class="img-fluid" src="static/1_dog_kevin.jpeg" alt="..." width="300" height="300"/>
+                        <img class="img-fluid" src="static/{{idx}}.jpeg" alt="..." width="300" height="300"/>
                     </a>
                     <div class="animal-caption">
-                        <div class="animal-caption-heading">Kevin</div>
-                        <div class="animal-caption-subheading text-muted">Dog</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Animal item 2-->
-                <div class="animal-item">
-                    <a class="animal-link" data-bs-toggle="modal" href="#animalModal2">
-                        <div class="animal-hover">
-                            <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="static/2_cat_snow.jpeg" alt="..." width="300" height="300"/>
-                    </a>
-                    <div class="animal-caption">
-                        <div class="animal-caption-heading">Snow</div>
-                        <div class="animal-caption-subheading text-muted">Cat</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Animal item 3-->
-                <div class="animal-item">
-                    <a class="animal-link" data-bs-toggle="modal" href="#animalModal3">
-                        <div class="animal-hover">
-                            <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="static/3_cat_tiger.jpeg" alt="..." width="300" height="300"/>
-                    </a>
-                    <div class="animal-caption">
-                        <div class="animal-caption-heading">Tiger</div>
-                        <div class="animal-caption-subheading text-muted">Cat</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
-                <!-- Animal item 4-->
-                <div class="animal-item">
-                    <a class="animal-link" data-bs-toggle="modal" href="#animalModal4">
-                        <div class="animal-hover">
-                            <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="static/4_dog_charlie.jpeg" alt="..." width="300" height="300"/>
-                    </a>
-                    <div class="animal-caption">
-                        <div class="animal-caption-heading">Charlie</div>
-                        <div class="animal-caption-subheading text-muted">Dog</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
-                <!-- Animal item 5-->
-                <div class="animal-item">
-                    <a class="animal-link" data-bs-toggle="modal" href="#animalModal5">
-                        <div class="animal-hover">
-                            <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="static/5_cat_mandarin.jpeg" alt="..." width="300" height="300"/>
-                    </a>
-                    <div class="animal-caption">
-                        <div class="animal-caption-heading">Mandarin</div>
-                        <div class="animal-caption-subheading text-muted">Cat</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <!-- Animal item 6-->
-                <div class="animal-item">
-                    <a class="animal-link" data-bs-toggle="modal" href="#animalModal6">
-                        <div class="animal-hover">
-                            <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="static/6_dog_max.jpeg" alt="..." width="300" height="300"/>
-                    </a>
-                    <div class="animal-caption">
-                        <div class="animal-caption-heading">Max</div>
-                        <div class="animal-caption-subheading text-muted">Dog</div>
+                        <div class="animal-caption-heading">{{new_animal.name}}</div>
+                        <div class="animal-caption-subheading text-muted">{{new_animal.type}}</div>
+                        <div class="animal-caption-subheading text-muted">{{new_animal.data_created}}</div>
                     </div>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </section>
+
 <!--News-->
 <section class="page-section" id="news">
     <div class="container">
@@ -166,7 +95,20 @@
                             <ul class="list-inline">
                                 <li>
                                     <strong>Name:</strong>
-                                    Kevin
+                                </li>
+                                <li>
+                                    <strong>Breed:</strong>
+                                    A
+                                </li>
+                                <li>
+                                    <strong>Name:</strong>
+                                </li>
+                                <li>
+                                    <strong>Breed:</strong>
+                                    A
+                                </li>
+                                <li>
+                                    <strong>Name:</strong>
                                 </li>
                                 <li>
                                     <strong>Breed:</strong>
