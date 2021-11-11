@@ -31,7 +31,7 @@ breed_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
 class AnimalForm(FlaskForm):
     animal_name = StringField('What is her/his name?',
                               validators=[DataRequired()])
-    animal_type = SelectField('Animal Type', choices =animal_list)
+    animal_type = SelectField('Animal Type', choices=animal_list)
     breeds = SelectField('Breeds', choices =breed_list)
     good_with_animal = BooleanField('Good with other animals')
     good_with_kid = BooleanField('Good with children')
@@ -40,7 +40,7 @@ class AnimalForm(FlaskForm):
     choices=dispositions,validators=[]) """
     avail= SelectField('Availability', choices=avail_status)
     image = FileField('Upload an image', validators=[])
-    description= TextAreaField('Description',validators=[DataRequired()])
+    description= TextAreaField('Description', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
