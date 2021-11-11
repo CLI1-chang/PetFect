@@ -24,22 +24,22 @@ dispositions = [('1', 'Good with other animals'),
                 ('3', 'Animal must be leashed at all times')]
 avail_status = [('1', 'Not Available'), ('2', 'Available'),
                 ('3', 'Pending'),('4', 'Adopted')]
-animal_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
-breed_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
-
+animal_list = {'Cats':['Ragdoll', 'British Shorthair'],
+                'Dogs':['Golden Retriever', 'Pug'],
+                'Others':['Hamster1', 'Reptile']}
 
 class AnimalForm(FlaskForm):
-    animal_name = StringField('What is her/his name?',
-                              validators=[DataRequired()])
-    animal_type = SelectField('Animal Type', choices =animal_list)
-    breeds = SelectField('Breeds', choices =breed_list)
-    good_with_animal = BooleanField('Good with other animals')
-    good_with_kid = BooleanField('Good with children')
-    leash_required = BooleanField('Animal must be leashed at all times')
+    animal_name = StringField('What is her/his name?', validators=[DataRequired()])
+    types = list(animal_list.keys())               
+    animal_type = SelectField('Animal Type', choices =types)
+    breeds = SelectField('Breeds', choices=[])
+    good_with_animal = BooleanField('Good with other animals', false_values=False)
+    good_with_kid = BooleanField('Good with children', false_values=None)
+    leash_required = BooleanField('Animal must be leashed at all times', false_values=None)
     """ disposition = MultiCheckboxField('Disposition', 
     choices=dispositions,validators=[]) """
     avail= SelectField('Availability', choices=avail_status)
-    image = FileField('Upload an image', validators=[])
+    image = FileField('Upload an image')
     description= TextAreaField('Description',validators=[DataRequired()])
     submit = SubmitField('Submit')
 

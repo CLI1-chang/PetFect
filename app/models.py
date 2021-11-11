@@ -18,6 +18,11 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
+""" class Breed(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(64))
+    name = db.Column(db.String(50)) """
+
 
 class Animal(db.Model):
     __tablename__ = 'animals'
