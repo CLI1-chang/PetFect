@@ -81,6 +81,9 @@ class User(UserMixin, db.Model):
     def is_administrator(self):
         return self.role_id is not None and (self.role_id == 1)
 
+    def is_user(self):
+        return self.role_id is not None and (self.role_id == 2)
+
     def __repr__(self):
         return '<User %r>' % self.user_name
 

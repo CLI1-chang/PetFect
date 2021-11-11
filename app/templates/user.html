@@ -23,11 +23,13 @@
     <br>
     <br>
     <p>
-        {% if user == current_user %}
+        {% if current_user.is_user() %}
         <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
         {% endif %}
         {% if current_user.is_administrator() %}
-        <a class="btn btn-danger" href="{{ url_for('.edit_profile_admin', id=user.id) }}">Edit Profile [Admin]</a>
+        <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
+        <a class="btn btn-danger" href="{{ url_for('.edit_profile_admin', id=user.id) }}">Manage Animals</a>
+        <a class="btn btn-danger">Manage News</a>
         {% endif %}
     </p>
 </div>
