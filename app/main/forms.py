@@ -49,3 +49,17 @@ class NewsForm(FlaskForm):
     description= TextAreaField('Description',validators=[DataRequired()])
     image = FileField('Upload an image', validators=[])
     submit = SubmitField('Submit')
+
+
+class EditProfileForm(FlaskForm):
+    name = StringField('Real Name', validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
+    about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')
+
+
+class EditProfileAdminForm(FlaskForm):
+    name = StringField('Real name', validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
+    about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')

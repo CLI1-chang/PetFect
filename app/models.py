@@ -18,6 +18,16 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
+    @staticmethod
+    def insert_roles():
+        roles = {'Admin', 'User'}
+        for r in roles:
+            role = Role.query.filter_by(name=r).first()
+            if role is None:
+                role = Role(name=r)
+            db.session.add(role)
+        db.session.commit()
+
 
 class Animal(db.Model):
     __tablename__ = 'animals'
@@ -47,6 +57,15 @@ class User(UserMixin, db.Model):
     user_name = db.Column(db.String(64), unique=True, index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
+    name = db.Column(db.String(64))
+    location = db.Column(db.String(64))
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow())
+
+    # def __init__(self, **kwargs):
+    #     super(User, self).__init__(**kwargs)
+    #     if self.role is None:
+    #         self.role = Role.query.filter_by(id=2).first()
 
     @property
     def password(self):
@@ -58,6 +77,9 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def is_administrator(self):
+        return self.role_id is not None and (self.role_id == 1)
 
     def __repr__(self):
         return '<User %r>' % self.user_name
