@@ -46,7 +46,7 @@ class Animal(db.Model):
     img = db.Column(db.Text, nullable=False)
     img_name = db.Column(db.Text, nullable=False)
     img_mimetype = db.Column(db.Text, nullable = False)
-    #description
+    # description
     description = db.Column(db.String(200), nullable=False)
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
     """ users = db.relationship('User', backref='role', lazy='dynamic')"""
