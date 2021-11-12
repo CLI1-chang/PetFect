@@ -26,7 +26,7 @@ avail_status = [('1', 'Not Available'), ('2', 'Available'),
                 ('3', 'Pending'),('4', 'Adopted')]
 animal_list = {'Cats':['Ragdoll', 'British Shorthair'],
                 'Dogs':['Golden Retriever', 'Pug'],
-                'Others':['Hamster1', 'Reptile']}
+                'Others':['Hamster', 'Reptile']}
 
 class AnimalForm(FlaskForm):
     animal_name = StringField('What is her/his name?', validators=[DataRequired()])

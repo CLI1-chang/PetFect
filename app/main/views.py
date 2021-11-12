@@ -75,14 +75,6 @@ def animal_breed(type):
     print (breeds)
     return jsonify({'breeds': breeds})
 
-@main.route('/<int:id>')
-def get_img(id):
-    img = Animal.query.filter_by(id=id).first()
-    if not img:
-        return 'No img with that id', 404
-    return Response(img.img, mimetype = img.img_mimetype)
-
-
 @main.route('/news_item')
 def news_item():
     form = NewsForm()
