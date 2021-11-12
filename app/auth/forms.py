@@ -6,7 +6,7 @@ Reference: O'Reilly Flask Web Development
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
-from wtforms import ValidationError
+from wtforms import ValidationError, SelectField
 from app.models import User
 
 
@@ -18,6 +18,10 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
 
+# role list for registration process
+role_list = [('1', 'Shelter Admin'), ('2', 'Normal User')]
+
+
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
@@ -25,10 +29,11 @@ class RegistrationForm(FlaskForm):
                            validators=[DataRequired(), Length(1, 64),
                                        Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
             'Usernames must have only letters, numbers, dots or underscores')])
-    password = PasswordField('Password',
-                             validators=[DataRequired(),
-                                         EqualTo('password2',
-                                        message='Passwords must match.')])
+    role = SelectField('Animal Type', choices=role_list)
+    password = PasswordField(
+        'Password',
+        validators=[DataRequired(),
+                    EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
     submit = SubmitField('Register')
 

@@ -38,7 +38,7 @@ class AnimalForm(FlaskForm):
     leash_required = BooleanField('Animal must be leashed at all times')
     avail= SelectField('Availability', choices=avail_status)
     image = FileField('Upload an image', validators=[])
-    description= TextAreaField('Description',validators=[DataRequired()])
+    description= TextAreaField('Description', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
@@ -46,4 +46,18 @@ class NewsForm(FlaskForm):
     news_title = StringField('What is this news about?', validators=[DataRequired()])
     description= TextAreaField('Description',validators=[DataRequired()])
     image = FileField('Upload an image', validators=[])
+    submit = SubmitField('Submit')
+
+
+class EditProfileForm(FlaskForm):
+    name = StringField('Real Name', validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
+    about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')
+
+
+class EditProfileAdminForm(FlaskForm):
+    name = StringField('Real name', validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
+    about_me = TextAreaField('About me')
     submit = SubmitField('Submit')
