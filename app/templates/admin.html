@@ -49,10 +49,8 @@
         fetch('/animal_breed/'+type).then(function(response){
             response.json().then(function(data){
                 let optionHTML = '';
-                let i = 1;
                 for (let breed of data.breeds){
-                    optionHTML += '<option value="'+ i +'">' + breed + '</option>';
-                    i = i + 1;
+                    optionHTML += '<option value="'+ breed +'">' + breed + '</option>';
                 }
                 breed_select.innerHTML = optionHTML;
             });

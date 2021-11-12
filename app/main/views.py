@@ -48,9 +48,10 @@ def admin():
     if a_type and a_breed and form.image.data:
         if with_animal or with_kid or leashed:
             file = request.files[form.image.name]
+            print("Breed is", a_breed)
             animal = Animal(name=form.animal_name.data, 
                             type=form.animal_type.data,
-                            breeds=form.breeds.data,
+                            breeds=a_breed,
                             good_with_animal=form.good_with_animal.data,
                             good_with_kid=form.good_with_kid.data,
                             leash_required=form.leash_required.data,
@@ -72,7 +73,6 @@ def admin():
 @main.route('/animal_breed/<type>')
 def animal_breed(type):
     breeds = animal_list.get(type)
-    print (breeds)
     return jsonify({'breeds': breeds})
 
 @main.route('/news_item')
