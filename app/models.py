@@ -18,11 +18,6 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.name
 
-""" class Breed(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(64))
-    name = db.Column(db.String(50)) """
-
 
 class Animal(db.Model):
     __tablename__ = 'animals'
@@ -35,8 +30,13 @@ class Animal(db.Model):
     good_with_animal = db.Column(db.Boolean, nullable=False)
     good_with_kid = db.Column(db.Boolean, nullable=False)
     leash_required = db.Column(db.Boolean, nullable=False)
-    # availability and description
+    # availability
     availability = db.Column(db.String(64), nullable=False)
+    # image to be saved 
+    img = db.Column(db.Text, nullable=False)
+    img_name = db.Column(db.Text, nullable=False)
+    img_mimetype = db.Column(db.Text, nullable = False)
+    #description
     description = db.Column(db.String(200), nullable=False)
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
     """ users = db.relationship('User', backref='role', lazy='dynamic')"""

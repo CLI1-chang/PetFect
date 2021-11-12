@@ -33,13 +33,11 @@ class AnimalForm(FlaskForm):
     types = list(animal_list.keys())               
     animal_type = SelectField('Animal Type', choices =types)
     breeds = SelectField('Breeds', choices=[])
-    good_with_animal = BooleanField('Good with other animals', false_values=False)
-    good_with_kid = BooleanField('Good with children', false_values=None)
-    leash_required = BooleanField('Animal must be leashed at all times', false_values=None)
-    """ disposition = MultiCheckboxField('Disposition', 
-    choices=dispositions,validators=[]) """
+    good_with_animal = BooleanField('Good with other animals')
+    good_with_kid = BooleanField('Good with children')
+    leash_required = BooleanField('Animal must be leashed at all times')
     avail= SelectField('Availability', choices=avail_status)
-    image = FileField('Upload an image')
+    image = FileField('Upload an image', validators=[])
     description= TextAreaField('Description',validators=[DataRequired()])
     submit = SubmitField('Submit')
 
