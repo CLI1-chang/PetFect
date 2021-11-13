@@ -40,10 +40,24 @@
         <br>
         {{form.submit()}}
    </form> 
+   <script>
+    let type_select = document.getElementById('animal_type');
+    let breed_select = document.getElementById('breeds');
+
+    type_select.onchange = function(){
+        type = type_select.value;
+        fetch('/animal_breed/'+type).then(function(response){
+            response.json().then(function(data){
+                let optionHTML = '';
+                for (let breed of data.breeds){
+                    optionHTML += '<option value="'+ breed +'">' + breed + '</option>';
+                }
+                breed_select.innerHTML = optionHTML;
+            });
+        });
+    }
+    </script>
 </div>
-<!-- <div div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-</div> -->
 
 <br>
 

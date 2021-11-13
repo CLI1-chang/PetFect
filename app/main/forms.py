@@ -24,23 +24,21 @@ dispositions = [('1', 'Good with other animals'),
                 ('3', 'Animal must be leashed at all times')]
 avail_status = [('1', 'Not Available'), ('2', 'Available'),
                 ('3', 'Pending'),('4', 'Adopted')]
-animal_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
-breed_list = [('1', 'Cat'), ('2', 'Dogs'), ('3', 'Others')]
-
+animal_list = {'Cats':['Ragdoll', 'British Shorthair'],
+                'Dogs':['Golden Retriever', 'Pug'],
+                'Others':['Hamster', 'Reptile']}
 
 class AnimalForm(FlaskForm):
-    animal_name = StringField('What is her/his name?',
-                              validators=[DataRequired()])
-    animal_type = SelectField('Animal Type', choices =animal_list)
-    breeds = SelectField('Breeds', choices =breed_list)
+    animal_name = StringField('What is her/his name?', validators=[DataRequired()])
+    types = list(animal_list.keys())               
+    animal_type = SelectField('Animal Type', choices =types)
+    breeds = SelectField('Breeds', choices=[])
     good_with_animal = BooleanField('Good with other animals')
     good_with_kid = BooleanField('Good with children')
     leash_required = BooleanField('Animal must be leashed at all times')
-    """ disposition = MultiCheckboxField('Disposition', 
-    choices=dispositions,validators=[]) """
     avail= SelectField('Availability', choices=avail_status)
     image = FileField('Upload an image', validators=[])
-    description= TextAreaField('Description',validators=[DataRequired()])
+    description= TextAreaField('Description', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
@@ -48,4 +46,18 @@ class NewsForm(FlaskForm):
     news_title = StringField('What is this news about?', validators=[DataRequired()])
     description= TextAreaField('Description',validators=[DataRequired()])
     image = FileField('Upload an image', validators=[])
+    submit = SubmitField('Submit')
+
+
+class EditProfileForm(FlaskForm):
+    name = StringField('Real Name', validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
+    about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')
+
+
+class EditProfileAdminForm(FlaskForm):
+    name = StringField('Real name', validators=[DataRequired()])
+    location = StringField('Location', validators=[DataRequired()])
+    about_me = TextAreaField('About me')
     submit = SubmitField('Submit')
