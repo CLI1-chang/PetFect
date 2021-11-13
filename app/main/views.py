@@ -22,15 +22,13 @@ def add_animals_starter():
     except:
         db.session.rollback()
     starter_animals = [
-        Animal(name='Kevin', type='Dog', breeds='bulldog', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", description="Kevin is a lovely paw patrol", data_created= datetime(2021, 11, 2, 20, 31, 10)),
-        Animal(name='Snow', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)),
-        Animal(name='Tiger', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)), 
-        Animal(name='Charlie', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)), 
-        Animal(name='Mandarin', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)), 
-        Animal(name='Max', type='Cat', breeds='Ragdoll', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1))   
+        Animal(name='Kevin', type='Dog', breeds='Bulldog', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", description="Kevin is a lovely paw patrol", data_created= datetime(2021, 11, 2, 20, 31, 10)),
+        Animal(name='Snow', type='Cat', breeds='Persian', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 10, 30, 10, 8, 1)),
+        Animal(name='Tiger', type='Cat', breeds='American Shorthair', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Not Available'", description="Tiger thinks of himeself as Lion King.", data_created= datetime(2021, 8, 2, 22, 10, 0)), 
+        Animal(name='Charlie', type='Dog', breeds='Corgi', good_with_animal=False, good_with_kid=True, leash_required=True, availability="Pending", description="Chalie is too little to know about herself yet. She needs a warm home", data_created= datetime(2021, 6, 15, 23, 22, 5)), 
+        Animal(name='Mandarin', type='Cat', breeds='American Curl', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", description="Orange is the new color trend.", data_created= datetime(2021, 10, 15, 19, 8, 9)), 
+        Animal(name='Max', type='Dog', breeds='Dalmatinac', good_with_animal=False, good_with_kid=True, leash_required=True, availability="Pending", description="Max loves to play frisbee.", data_created= datetime(2021, 12, 12, 7, 8, 11))   
     ]
-    # kevin = Animal(name='Kevin', type='Dog', breeds='bulldog', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", description="Kevin is a lovely paw patrol", data_created= datetime(2021, 11, 2, 20, 31, 10))
-    # kevin = Animal(name='Kevin', type='Dog', breeds='bulldog', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", description="Kevin is a lovely paw patrol", data_created= datetime(2021, 11, 2, 20, 31, 10))
     db.session.add_all(starter_animals)
     db.session.commit()
 
