@@ -5,6 +5,34 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>This is Animal Page.</hs1>
+    <h1>This is Animal Page.</h1>
 </div>
+<section class="page-section bg-light" id="animal">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading">Scroll down for more animals</h2>
+        </div>
+        {% for animal in animals %}
+        <div class="row">
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <!-- Animal items-->
+                <div class="animal-item">
+                    <div class="animal-hover">
+                        <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                    </div>
+                    <img class="img-fluid" src="/{{animal.id}}" alt="..." width="300" height="300"/>
+                    <aside>
+                    <div class="animal-caption">
+                        <div class="animal-caption-heading">{{animal.name}}</div>
+                        <div class="animal-caption-subheading text-muted">{{animal.type}}</div>
+                        <div class="animal-caption-subheading text-muted">{{animal.breeds}}</div>
+                        <div class="animal-caption-subheading text-muted">{{animal.data_created}}</div>
+                    </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

@@ -15,48 +15,8 @@ from flask_login import login_required, current_user
 from ..decorators import admin_required
 
 
-def add_animals_starter():
-    '''
-    Insert a few animals in the Animal table as starter data
-    '''
-    # delete all current data
-    try:
-        num_rows_deleted = db.session.query(Animal).delete()
-    except:
-        db.session.rollback()
-    starter_animals = [
-        Animal(
-            name='Kevin', type='Dog', breeds='Bulldog', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available",
-            img = "test", img_name = "test", img_mimetype = "test",
-            description="Kevin is a lovely paw patrol", data_created= datetime(2022, 12, 2, 20, 31, 10)),
-        Animal(
-            name='Snow', type='Cat', breeds='Persian', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Adopted", 
-            img = "test", img_name = "test", img_mimetype = "test",
-            description="Beautiful Snow loves to keep everthing quiet", data_created= datetime(2021, 12, 30, 10, 8, 1)),
-        Animal(
-            name='Tiger', type='Cat', breeds='American Shorthair', good_with_animal=True, good_with_kid=False, leash_required=False, availability="Not Available'", 
-            img = "test", img_name = "test", img_mimetype = "test",
-            description="Tiger thinks of himeself as Lion King.", data_created= datetime(2021, 12, 2, 22, 10, 0)), 
-        Animal(
-            name='Charlie', type='Dog', breeds='Corgi', good_with_animal=False, good_with_kid=True, leash_required=True, availability="Pending", 
-            img = "test", img_name = "test", img_mimetype = "test",
-            description="Chalie is too little to know about herself yet. She needs a warm home", data_created= datetime(2021, 12, 15, 23, 22, 5)), 
-        Animal(
-            name='Mandarin', type='Cat', breeds='American Curl', good_with_animal=True, good_with_kid=True, leash_required=False, availability="Available", 
-            img = "test", img_name = "test", img_mimetype = "test",
-            description="Orange is the new color trend.", data_created= datetime(2021, 12, 15, 19, 8, 9)), 
-        Animal(
-            name='Max', type='Dog', breeds='Dalmatinac', good_with_animal=False, good_with_kid=True, leash_required=True, availability="Pending", 
-            img = "test", img_name = "test", img_mimetype = "test",
-            description="Max loves to play frisbee.", data_created= datetime(2021, 12, 12, 7, 8, 11))   
-    ]
-    db.session.add_all(starter_animals)
-    db.session.commit()
-
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    # order_by(Animal.data_created.desc())
-    add_animals_starter()
     new_animals = Animal.query.order_by(Animal.data_created.desc()).limit(6).all()
     return render_template('index.html', new_animals=new_animals)
 
@@ -68,7 +28,16 @@ def about():
 
 @main.route('/animal')
 def animal():
-    return render_template("animal.html")
+    animals = Animal.query.filter(Animal.availability == 'Available').all()
+    return render_template("animal.html", animals=animals)
+
+
+@main.route('/<int:id>')
+def get_img(id):
+    img = Animal.query.filter_by(id=id).first()
+    if not img:
+        return 'No image with that id', 404
+    return Response(img.img, mimetype=img.img_mimetype)
 
 
 @main.route('/contact')
@@ -83,9 +52,9 @@ def admin():
     a_type = form.animal_type.data
     a_breed = form.breeds.data
 
-    with_animal=form.good_with_animal.data
-    with_kid=form.good_with_kid.data
-    leashed=form.leash_required.data
+    with_animal = form.good_with_animal.data
+    with_kid = form.good_with_kid.data
+    leashed = form.leash_required.data
   
     if a_type and a_breed and form.image.data:
         if with_animal or with_kid or leashed:
@@ -97,9 +66,9 @@ def admin():
                             good_with_animal=form.good_with_animal.data,
                             good_with_kid=form.good_with_kid.data,
                             leash_required=form.leash_required.data,
-                            img = file.read(),
-                            img_name = secure_filename(file.filename),
-                            img_mimetype = file.mimetype,
+                            img=file.read(),
+                            img_name=secure_filename(file.filename),
+                            img_mimetype=file.mimetype,
                             availability=dict(form.avail.choices).get(form.avail.data),
                             description=form.description.data)
             db.session.add(animal)
@@ -108,7 +77,7 @@ def admin():
             return redirect(url_for('main.index'))
         else:
             # needs to add in an alert 
-           print('Must select a disposition!')
+            print('Must select a disposition!')
     return render_template('admin.html', form=form)
 
 
@@ -116,6 +85,7 @@ def admin():
 def animal_breed(type):
     breeds = animal_list.get(type)
     return jsonify({'breeds': breeds})
+
 
 @main.route('/news_item')
 def news_item():
