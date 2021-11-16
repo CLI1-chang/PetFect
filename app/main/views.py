@@ -45,42 +45,6 @@ def contact():
     return render_template("contact.html")
 
 
-@main.route('/admin', methods=['GET', 'POST'])
-def admin():
-    form = AnimalForm()
-    form.breeds.choices = animal_list.get("Cats")
-    a_type = form.animal_type.data
-    a_breed = form.breeds.data
-
-    with_animal = form.good_with_animal.data
-    with_kid = form.good_with_kid.data
-    leashed = form.leash_required.data
-  
-    if a_type and a_breed and form.image.data:
-        if with_animal or with_kid or leashed:
-            file = request.files[form.image.name]
-            print("Breed is", a_breed)
-            animal = Animal(name=form.animal_name.data, 
-                            type=form.animal_type.data,
-                            breeds=a_breed,
-                            good_with_animal=form.good_with_animal.data,
-                            good_with_kid=form.good_with_kid.data,
-                            leash_required=form.leash_required.data,
-                            img=file.read(),
-                            img_name=secure_filename(file.filename),
-                            img_mimetype=file.mimetype,
-                            availability=dict(form.avail.choices).get(form.avail.data),
-                            description=form.description.data)
-            db.session.add(animal)
-            db.session.commit()
-            flash('New animal profile successfully created!')
-            return redirect(url_for('main.index'))
-        else:
-            # needs to add in an alert 
-            print('Must select a disposition!')
-    return render_template('admin.html', form=form)
-
-
 @main.route('/animal_breed/<type>')
 def animal_breed(type):
     breeds = animal_list.get(type)
@@ -137,3 +101,40 @@ def edit_profile_admin(id):
     form.about_me.data = admin_user.about_me
     return render_template('edit_profile_admin.html', form=form)
 
+
+
+@main.route('/create_animal', methods=['GET', 'POST'])
+def create_animal():
+    form = AnimalForm()
+    form.breeds.choices = animal_list.get("Cats")
+    a_type = form.animal_type.data
+    a_breed = form.breeds.data
+
+    with_animal = form.good_with_animal.data
+    with_kid = form.good_with_kid.data
+    leashed = form.leash_required.data
+  
+    if a_type and a_breed and form.image.data:
+        if with_animal or with_kid or leashed:
+            file = request.files[form.image.name]
+            print("Breed is", a_breed)
+            animal = Animal(name=form.animal_name.data, 
+                            type=form.animal_type.data,
+                            breeds=a_breed,
+                            good_with_animal=form.good_with_animal.data,
+                            good_with_kid=form.good_with_kid.data,
+                            leash_required=form.leash_required.data,
+                            img=file.read(),
+                            img_name=secure_filename(file.filename),
+                            img_mimetype=file.mimetype,
+                            availability=dict(form.avail.choices).get(form.avail.data),
+                            description=form.description.data
+                            )
+            db.session.add(animal)
+            db.session.commit()
+            flash('New animal profile successfully created!')
+            return redirect(url_for('main.index'))
+        else:
+            # needs to add in an alert 
+            print('Must select a disposition!')
+    return render_template('create_animal.html', form=form)
