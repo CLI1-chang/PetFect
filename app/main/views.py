@@ -82,14 +82,12 @@ def edit_profile():
     return render_template('edit_profile.html', form=form)
 
 @main.route('/manage_animal/<int:id>', methods=['GET', 'POST'])
-@login_required
 @admin_required
 def edit_animal_profile(id):
     admin_user = User.query.get_or_404(id)
     return render_template('edit_animal_profile.html',admin_user=admin_user)
 
 @main.route('/create_animal/<int:id>', methods=['GET', 'POST'])
-@login_required
 @admin_required
 def create_animal(id):
     admin_user = User.query.get_or_404(id)
@@ -130,47 +128,8 @@ def create_animal(id):
     return render_template('create_animal.html', form=form)
 
 @main.route('/manage_news/<int:id>', methods=['GET', 'POST'])
-@login_required
 @admin_required
 def edit_news(id):
     admin_user = User.query.get_or_404(id)
     return render_template('edit_news.html',admin_user=admin_user)
 
-
-
-# original animal data
-""" @main.route('/create_animal', methods=['GET', 'POST'])
-def create_animal():
-    form = AnimalForm()
-    form.breeds.choices = animal_list.get("Cats")
-    a_type = form.animal_type.data
-    a_breed = form.breeds.data
-
-    with_animal = form.good_with_animal.data
-    with_kid = form.good_with_kid.data
-    leashed = form.leash_required.data
-  
-    if a_type and a_breed and form.image.data:
-        if with_animal or with_kid or leashed:
-            file = request.files[form.image.name]
-            print("Breed is", a_breed)
-            animal = Animal(name=form.animal_name.data, 
-                            type=form.animal_type.data,
-                            breeds=a_breed,
-                            good_with_animal=form.good_with_animal.data,
-                            good_with_kid=form.good_with_kid.data,
-                            leash_required=form.leash_required.data,
-                            img=file.read(),
-                            img_name=secure_filename(file.filename),
-                            img_mimetype=file.mimetype,
-                            availability=dict(form.avail.choices).get(form.avail.data),
-                            description=form.description.data
-                            )
-            db.session.add(animal)
-            db.session.commit()
-            flash('New animal profile successfully created!')
-            return redirect(url_for('main.index'))
-        else:
-            # needs to add in an alert 
-            print('Must select a disposition!')
-    return render_template('create_animal.html', form=form) """
