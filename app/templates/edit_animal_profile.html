@@ -5,9 +5,8 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>This is admin profile page!!!</h1>
+    <h1>Shows list of animals</h1>
 </div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-</div>
+<br>
+<a class="btn btn-danger" href="{{ url_for('.create_animal', id=admin_user.id) }}">Create animals</a>
 {% endblock %}

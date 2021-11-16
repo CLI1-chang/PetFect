@@ -49,7 +49,7 @@ class Animal(db.Model):
     # description
     description = db.Column(db.String(200), nullable=False)
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
-    """ owner_id = db.Column(db.Integer, db.ForeignKey('users.id')) """
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
         return '<Animal %r>' % self.id
@@ -67,7 +67,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow())
 
-    """ animals = db.relationship('Animal', backref='owner', lazy='dynamic') """
+    animals = db.relationship('Animal', backref='owner', lazy='dynamic')
     # def __init__(self, **kwargs):
     #     super(User, self).__init__(**kwargs)
     #     if self.role is None:
