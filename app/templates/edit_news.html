@@ -1,0 +1,12 @@
+{% extends "home.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}PetFect - Edit Profile Admin{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>News List</h1>
+</div>
+<br>
+<a class="btn btn-danger" href="{{ url_for('.news_item', id=admin_user.id) }}">Create news</a>
+{% endblock %}

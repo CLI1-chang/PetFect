@@ -129,7 +129,12 @@ def create_animal(id):
             print('Must select a disposition!')
     return render_template('create_animal.html', form=form)
 
-
+@main.route('/manage_news/<int:id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_news(id):
+    admin_user = User.query.get_or_404(id)
+    return render_template('edit_news.html',admin_user=admin_user)
 
 
 
