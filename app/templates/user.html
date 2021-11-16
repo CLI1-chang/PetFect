@@ -33,4 +33,14 @@
         {% endif %}
     </p>
 </div>
+{% if current_user.is_user() %}
+<div class="animal-item">
+    <p>Normal User Animal list</p>
+</div>
+{% endif %}
+{% if current_user.is_administrator() %}
+<div class="animal-item">
+    <p>Shelter Admin Animal list</p>
+</div>
+{% endif %}
 {% endblock %}
