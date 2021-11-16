@@ -5,34 +5,41 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>This is Animal Page.</h1>
+    <p>This is animal browsing page</p>
 </div>
-<section class="page-section bg-light" id="animal">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading">Scroll down for more animals</h2>
+<section class="animal-list bg-light">
+<div class="row">
+   {% for animal in animals %}
+        <div class="column">
+            <img class="center crop" src="/{{animal.id}}"/>
         </div>
-        {% for animal in animals %}
-        <div class="row">
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Animal items-->
-                <div class="animal-item">
-                    <div class="animal-hover">
-                        <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                    </div>
-                    <img class="img-fluid" src="/{{animal.id}}" alt="..." width="300" height="300"/>
-                    <aside>
-                    <div class="animal-caption">
-                        <div class="animal-caption-heading">{{animal.name}}</div>
-                        <div class="animal-caption-subheading text-muted">{{animal.type}}</div>
-                        <div class="animal-caption-subheading text-muted">{{animal.breeds}}</div>
-                        <div class="animal-caption-subheading text-muted">{{animal.data_created}}</div>
-                    </div>
-                    </aside>
-                </div>
-            </div>
+        <div class="column">
+            <br>
+            <br>
+            <!-- Animal Info -->
+            <h3>{{animal.name}}</h3>
+            <div class="animal-caption-subheading text-muted">{{animal.type}}</div>
+            <div class="animal-caption-subheading text-muted">{{animal.breeds}}</div>
+            <div class="animal-caption-subheading text-muted">{{animal.data_created.date()}}</div>
+            <br>
+            <h5>Disposition</h5>
+            {% if animal.good_with_animal == True %}
+            <div class="animal-caption-subheading text-muted">Good with other animals</div>
+            {% endif %}
+            {% if animal.good_with_kid == True %}
+            <div class="animal-caption-subheading text-muted">Good with children</div>
+            {% endif %}
+            {% if animal.leash_required == True %}
+            <div class="animal-caption-subheading text-muted">Animal must be leashed at all times</div>
+            {% endif %}
+            <br>
+            <br>
+            <!-- Animal Detail Page Button -->
+            <form method="get" action="/animal/{{ animal.id }}">
+                <button class="btn btn-default bg-warning">Learn More</button>
+            </form>
         </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
+</div>
 </section>
 {% endblock %}

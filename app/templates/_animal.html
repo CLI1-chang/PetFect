@@ -1,0 +1,39 @@
+{% extends "home.html" %}
+
+{% block title %}PetFect - Animal Detail{% endblock %}
+
+{% block page_content %}
+    {% if animal %}
+        <div class="column">
+            <img class="center crop" src="/{{animal.id}}"/>
+        </div>
+        <div class="column">
+            <br>
+            <br>
+            <h3>{{animal.name}}</h3>
+            <div class="animal-caption-subheading text-muted">{{animal.type}}</div>
+            <div class="animal-caption-subheading text-muted">{{animal.breeds}}</div>
+            <div class="animal-caption-subheading text-muted">{{animal.data_created.date()}}</div>
+            <br>
+            <h5>Disposition</h5>
+            {% if animal.good_with_animal == True %}
+            <div class="animal-caption-subheading text-muted">Good with other animals</div>
+            {% endif %}
+            {% if animal.good_with_kid == True %}
+            <div class="animal-caption-subheading text-muted">Good with children</div>
+            {% endif %}
+            {% if animal.leash_required == True %}
+            <div class="animal-caption-subheading text-muted">Animal must be leashed at all times</div>
+            {% endif %}
+            <br>
+            <h5>Description</h5>
+            <div class="animal-caption-subheading text-muted">{{animal.description}}</div>
+            <br>
+            <h5>Availability</h5>
+            <div class="animal-caption-subheading text-muted">{{animal.availability}}</div>
+        </div>
+        <!-- Like and Date button, still need action -->
+        <a class="btn btn-default bg-warning">Like</a>
+        <a class="btn btn-danger">Schedule a Date</a>
+    {% endif %}
+{% endblock %}

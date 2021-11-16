@@ -24,14 +24,15 @@ dispositions = [('1', 'Good with other animals'),
                 ('3', 'Animal must be leashed at all times')]
 avail_status = [('1', 'Not Available'), ('2', 'Available'),
                 ('3', 'Pending'),('4', 'Adopted')]
-animal_list = {'Cats':['Ragdoll', 'British Shorthair'],
-                'Dogs':['Golden Retriever', 'Pug'],
-                'Others':['Hamster', 'Reptile']}
+animal_list = {'Cats': ['Ragdoll', 'British Shorthair', 'Others'],
+               'Dogs': ['Golden Retriever', 'Pug', 'Others'],
+               'Others': ['Hamster', 'Reptile']}
+
 
 class AnimalForm(FlaskForm):
     animal_name = StringField('What is her/his name?', validators=[DataRequired()])
     types = list(animal_list.keys())               
-    animal_type = SelectField('Animal Type', choices =types)
+    animal_type = SelectField('Animal Type', choices=types)
     breeds = SelectField('Breeds', choices=[])
     good_with_animal = BooleanField('Good with other animals')
     good_with_kid = BooleanField('Good with children')
@@ -60,4 +61,12 @@ class EditProfileAdminForm(FlaskForm):
     name = StringField('Real name', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     about_me = TextAreaField('About me')
+    submit = SubmitField('Submit')
+
+
+search_type = ['Cats', 'Dogs', 'Others']
+
+
+class SearchAnimal(FlaskForm):
+    animal_type = SelectField('Animal Type', choices=search_type)
     submit = SubmitField('Submit')

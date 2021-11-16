@@ -3,13 +3,15 @@ app.main views: render web pages with GET POST operations
 Reference: O'Reilly Flask Web Development
 """
 
-from flask import render_template, session, redirect, url_for, flash, jsonify, request, Response
+from flask import render_template, session, redirect, url_for, flash, jsonify,\
+    request, Response
 # from wtforms.validators import DataRequired
 from . import main
 from .. import db
 from datetime import datetime
 from ..models import Animal, User
-from .forms import AnimalForm, NewsForm, animal_list, EditProfileForm, EditProfileAdminForm
+from .forms import AnimalForm, NewsForm, animal_list, EditProfileForm,\
+    SearchAnimal, EditProfileAdminForm
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 from ..decorators import admin_required
@@ -30,6 +32,22 @@ def about():
 def animal():
     animals = Animal.query.filter(Animal.availability == 'Available').all()
     return render_template("animal.html", animals=animals)
+
+
+@main.route('/animal/<int:id>')
+def single_animal(id):
+    curr_animal = Animal.query.get_or_404(id)
+    return render_template('_animal.html', animal=curr_animal)
+
+
+@main.route('/search', methods=['GET', 'POST'])
+def search():
+    form = SearchAnimal()
+    if form.validate_on_submit():
+        search_type = form.animal_type.data
+        animals = Animal.query.filter(Animal.type == search_type).all()
+        return render_template('animal.html', animals=animals)
+    return render_template('search.html', form=form)
 
 
 @main.route('/<int:id>')
@@ -81,11 +99,13 @@ def edit_profile():
     form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', form=form)
 
+
 @main.route('/manage_animal/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def edit_animal_profile(id):
     admin_user = User.query.get_or_404(id)
-    return render_template('edit_animal_profile.html',admin_user=admin_user)
+    return render_template('edit_animal_profile.html', admin_user=admin_user)
+
 
 @main.route('/create_animal/<int:id>', methods=['GET', 'POST'])
 @admin_required
@@ -115,7 +135,7 @@ def create_animal(id):
                             img_mimetype=file.mimetype,
                             availability=dict(form.avail.choices).get(form.avail.data),
                             description=form.description.data,
-                            owner_id = admin_user.id
+                            owner_id=admin_user.id
                             )
             db.session.add(animal)
             db.session.commit()
@@ -126,6 +146,7 @@ def create_animal(id):
             # needs to add in an alert 
             print('Must select a disposition!')
     return render_template('create_animal.html', form=form)
+
 
 @main.route('/manage_news/<int:id>', methods=['GET', 'POST'])
 @admin_required
