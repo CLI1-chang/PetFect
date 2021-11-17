@@ -15,8 +15,8 @@
             <h2 class="section-heading">Get to know our cuties</h2>
             <h3 class="section-subheading text-muted">Click on images for details.</h3>
         </div>
-        {% for new_animal in new_animals %}
         <div class="row">
+            {% for new_animal in new_animals %}
             <div class="col-lg-4 col-sm-6 mb-4">
                 <!-- Animal items-->
                 <div class="animal-item">
@@ -33,8 +33,8 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </section>
 
@@ -79,7 +79,8 @@
 
 <!-- Animal Modals-->
 <!-- Animal item 1 modal popup-->
-<div class="animal-modal modal fade" id="animalModal1" tabindex="-1" role="dialog" aria-hidden="true">
+{% for new_animal in new_animals %}
+<div class="animal-modal modal fade bg-dark" id="animalModal1" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="close-modal" data-bs-dismiss="modal"><img src="static/close-icon.svg" alt="Close modal" /></div>
@@ -87,7 +88,7 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="modal-body">
-                            <!-- Project details-->
+                            <!-- Animal details-->
                             <h2 class="text-uppercase">Animal Name</h2>
                             <p class="item-intro text-muted">Name of the animal.</p>
                             <img class="img-fluid d-block mx-auto" src="static/2_cat_snow.jpeg" alt="..." />
@@ -112,14 +113,10 @@
         </div>
     </div>
 </div>
-
+{% endfor %}
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="js/scripts.js"></script>
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<!-- * *                               SB Forms JS                               * *-->
-<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="static/scripts.js"></script>
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 {% endblock %}
