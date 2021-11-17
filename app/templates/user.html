@@ -58,7 +58,7 @@
         {% if association.date != True %}
         <td><a class="btn btn-default bg-warning" href="{{ url_for('main.date', user_id=current_user.id, animal_id=animal.id) }}">Date</a></td>
         {% else %}
-        <td><a class="btn btn-default bg-warning">Already Dated</a></td>
+        <td><a class="btn btn-default bg-danger">Already Dated</a></td>
         {% endif %}
         </tr>
     {% endfor %}
@@ -67,7 +67,7 @@
 {% endif %}
 {% if current_user.is_administrator() %}
 <div class="animal-item">
-    <p>Shelter Admin Animal list</p>
+    <p>Shelter Admin Profile</p>
 </div>
 {% endif %}
 {% endblock %}
