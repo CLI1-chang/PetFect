@@ -5,7 +5,10 @@
 
 {% block page_content %}
 <div class="page-header">
-    <p>This is animal browsing page</p>
+    <h3>Search by Criteria</h3><br>
+    {{ wtf.quick_form(form1, button_map={'submit':'success'}) }}
+    <br>
+    {{ wtf.quick_form(form2, button_map={'submit':'success'}) }}
 </div>
 <section class="animal-list bg-light">
 <div class="row">
