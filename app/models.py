@@ -29,6 +29,17 @@ class Role(db.Model):
         db.session.commit()
 
 
+class Association(db.Model):
+    __tablename__ = 'association'
+    user_id = db.Column(db.Integer(), db.ForeignKey('users.id'), primary_key=True)
+    animal_id = db.Column(db.Integer(), db.ForeignKey('animals.id'), primary_key=True)
+    like = db.Column(db.Boolean)
+    date = db.Column(db.Boolean)
+    animal = db.relationship('Animal', back_populates='user')
+    user = db.relationship('User', back_populates='user_animal')
+
+
+
 class Animal(db.Model):
     __tablename__ = 'animals'
     # primary key of animal
@@ -50,6 +61,7 @@ class Animal(db.Model):
     description = db.Column(db.String(200), nullable=False)
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('Association', back_populates='animal')
 
     def __repr__(self):
         return '<Animal %r>' % self.id
@@ -68,6 +80,7 @@ class User(UserMixin, db.Model):
     member_since = db.Column(db.DateTime(), default=datetime.utcnow())
 
     animals = db.relationship('Animal', backref='owner', lazy='dynamic')
+    user_animal = db.relationship('Association', back_populates='user')
     # def __init__(self, **kwargs):
     #     super(User, self).__init__(**kwargs)
     #     if self.role is None:

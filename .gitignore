@@ -7,3 +7,4 @@ __pycache__/app.cpython-38.pyc
 __pycache__/app.cpython-38.pyc
 *.sqlite
 data-dev.sqlite
+*.sqlite

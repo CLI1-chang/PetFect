@@ -33,7 +33,7 @@
             <div class="animal-caption-subheading text-muted">{{animal.availability}}</div>
         </div>
         <!-- Like and Date button, still need action -->
-        <a class="btn btn-default bg-warning">Like</a>
-        <a class="btn btn-danger">Schedule a Date</a>
+        <a class="btn btn-default bg-warning" href="{{ url_for('main.like', user_id=current_user.id, animal_id=animal.id) }}">Like</a>
+        <a class="btn btn-danger" href="{{ url_for('main.date', user_id=current_user.id, animal_id=animal.id) }}">Schedule a Date</a>
     {% endif %}
 {% endblock %}
