@@ -64,9 +64,21 @@ class EditProfileAdminForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-search_type = ['Cats', 'Dogs', 'Others']
+search_type = ['Choose', 'Cats', 'Dogs', 'Others']
+search_breed = {'default': ['Choose'],
+                'Cats': ['Ragdoll', 'British Shorthair', 'Others'],
+                'Dogs': ['Golden Retriever', 'Pug', 'Others'],
+                'Others': ['Hamster', 'Reptile', 'Others']}
+dispos_list = {'Choose': 0, 'Good with other animals': 1,
+               'Good with Children': 2, 'Animal must be leashed at all times': 3}
 
 
 class SearchAnimal(FlaskForm):
-    animal_type = SelectField('Animal Type', choices=search_type)
-    submit = SubmitField('Submit')
+    animal_breed = SelectField('Choose Breed', choices=search_breed.values())
+    animal_dispos = SelectField('Disposition', choices=dispos_list.keys())
+    submit = SubmitField('Search More')
+
+
+class SearchType(FlaskForm):
+    animal_type = SelectField('Choose Type', choices=search_type)
+    submit = SubmitField('Search By Type')

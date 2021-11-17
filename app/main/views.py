@@ -11,7 +11,7 @@ from .. import db
 from datetime import datetime
 from ..models import Animal, User
 from .forms import AnimalForm, NewsForm, animal_list, EditProfileForm,\
-    SearchAnimal, EditProfileAdminForm
+    SearchAnimal, SearchType, dispos_list, search_breed
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 from ..decorators import admin_required
@@ -28,26 +28,49 @@ def about():
     return render_template("about.html")
 
 
-@main.route('/animal')
+@main.route('/animal', methods=['GET', 'POST'])
 def animal():
+    form1 = SearchType()
+    form2 = SearchAnimal()
+    form2.animal_breed.choices = search_breed.get('default')
+    if form1.validate_on_submit():
+        type = form1.animal_type.data
+        form2.animal_breed.choices = search_breed.get(type)
+        if type != 'Choose':
+            filter_1 = Animal.type == type
+            animals = Animal.query.filter(filter_1).all()
+        else:
+            animals = Animal.query.filter(Animal.availability == 'Available').all()
+        return render_template('animal.html', form1=form1, form2=form2, animals=animals)
+
+    if form2.is_submitted():
+        breed = form2.animal_breed.data
+        filter_2 = Animal.breeds == breed
+        dispos = dispos_list[form2.animal_dispos.data]
+        if dispos == 1:
+            filter_3 = Animal.good_with_animal.is_(True)
+        elif dispos == 2:
+            filter_3 = Animal.good_with_kid.is_(True)
+        elif dispos == 3:
+            filter_3 = Animal.leash_required.is_(True)
+        if breed != 'Choose' and dispos != 0:
+            animals = Animal.query.filter(filter_2).filter(filter_3).all()
+        elif breed != 'Choose' and dispos == 0:
+            animals = Animal.query.filter(filter_2).all()
+        elif breed == 'Choose' and dispos != 0:
+            animals = Animal.query.filter(filter_3).all()
+        else:
+            animals = Animal.query.filter(Animal.availability == 'Available').all()
+        return render_template('animal.html', form1=form1, form2=form2, animals=animals)
+
     animals = Animal.query.filter(Animal.availability == 'Available').all()
-    return render_template("animal.html", animals=animals)
+    return render_template("animal.html", form1=form1, form2=form2, animals=animals)
 
 
 @main.route('/animal/<int:id>')
 def single_animal(id):
     curr_animal = Animal.query.get_or_404(id)
     return render_template('_animal.html', animal=curr_animal)
-
-
-@main.route('/search', methods=['GET', 'POST'])
-def search():
-    form = SearchAnimal()
-    if form.validate_on_submit():
-        search_type = form.animal_type.data
-        animals = Animal.query.filter(Animal.type == search_type).all()
-        return render_template('animal.html', animals=animals)
-    return render_template('search.html', form=form)
 
 
 @main.route('/<int:id>')
