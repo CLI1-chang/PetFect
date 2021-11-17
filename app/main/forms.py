@@ -24,14 +24,15 @@ dispositions = [('1', 'Good with other animals'),
                 ('3', 'Animal must be leashed at all times')]
 avail_status = [('1', 'Not Available'), ('2', 'Available'),
                 ('3', 'Pending'),('4', 'Adopted')]
-animal_list = {'Cats':['Ragdoll', 'British Shorthair'],
-                'Dogs':['Golden Retriever', 'Pug'],
-                'Others':['Hamster', 'Reptile']}
+animal_list = {'Cats': ['Ragdoll', 'British Shorthair', 'Others'],
+               'Dogs': ['Golden Retriever', 'Pug', 'Others'],
+               'Others': ['Hamster', 'Reptile']}
+
 
 class AnimalForm(FlaskForm):
     animal_name = StringField('What is her/his name?', validators=[DataRequired()])
     types = list(animal_list.keys())               
-    animal_type = SelectField('Animal Type', choices =types)
+    animal_type = SelectField('Animal Type', choices=types)
     breeds = SelectField('Breeds', choices=[])
     good_with_animal = BooleanField('Good with other animals')
     good_with_kid = BooleanField('Good with children')
@@ -61,3 +62,23 @@ class EditProfileAdminForm(FlaskForm):
     location = StringField('Location', validators=[DataRequired()])
     about_me = TextAreaField('About me')
     submit = SubmitField('Submit')
+
+
+search_type = ['Choose', 'Cats', 'Dogs', 'Others']
+search_breed = {'default': ['Choose'],
+                'Cats': ['Ragdoll', 'British Shorthair', 'Others'],
+                'Dogs': ['Golden Retriever', 'Pug', 'Others'],
+                'Others': ['Hamster', 'Reptile', 'Others']}
+dispos_list = {'Choose': 0, 'Good with other animals': 1,
+               'Good with Children': 2, 'Animal must be leashed at all times': 3}
+
+
+class SearchAnimal(FlaskForm):
+    animal_breed = SelectField('Choose Breed', choices=search_breed.values())
+    animal_dispos = SelectField('Disposition', choices=dispos_list.keys())
+    submit = SubmitField('Search More')
+
+
+class SearchType(FlaskForm):
+    animal_type = SelectField('Choose Type', choices=search_type)
+    submit = SubmitField('Search By Type')

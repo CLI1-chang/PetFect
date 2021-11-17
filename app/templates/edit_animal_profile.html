@@ -5,8 +5,64 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Shows list of animals</h1>
+    <h1>Current list of animals</h1>
 </div>
+<table class="table table-hover table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Breed</th>
+            <th scope="col">Good with other animals</th>
+            <th scope="col">Good with children</th>
+            <th scope="col">Must be leashed at all times</th>
+            <th scope="col">Description</th>
+            <th scope="col">Edit</th>
+          </tr>
+    </thead>
+{% for animal in animals %}
+    <!-- Animal Info -->
+    <tr>
+        <td>
+            {{animal.data_created.date()}}
+        </td>
+        <td>
+            {{animal.name}}
+        </td>
+        <td>
+            {{animal.type}}
+        </td>
+        <td>
+            {{animal.breeds}}
+        </td>
+        <td>
+            {% if animal.good_with_animal == True %}
+            Yes
+            {% endif %}
+        </td>
+        <td>
+            {% if animal.good_with_kid == True %}
+                Yes
+            {% endif %}
+        </td>
+        <td>
+            {% if animal.leash_required == True %}
+                Yes
+            {% endif %} 
+        </td>
+        <td>
+            {{animal.description|truncate()}}
+        </td>
+        <td>
+  
+            <a href="{{ url_for('.update', id=animal.id)}}" class="btn btn-success active" role="button" aria-pressed="true">Update</a>
+            <button class="btn btn-default bg-warning">Delete</button>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
 <br>
-<a class="btn btn-danger" href="{{ url_for('.create_animal', id=admin_user.id) }}">Create animals</a>
+<a class="btn btn-danger" href="{{ url_for('.create_animal', id=admin_user.id) }}">Create new animal profile</a>
 {% endblock %}
