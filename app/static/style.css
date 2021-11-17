@@ -89,6 +89,23 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  border: 1px solid #dddddd;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -11803,3 +11820,4 @@ section#contact form#contactForm :-ms-input-placeholder {
   height: 300px;
   overflow: hidden;
 }
+

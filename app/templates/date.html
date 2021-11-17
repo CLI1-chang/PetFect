@@ -1,9 +1,13 @@
 {% extends "home.html" %}
 
-{% block title %}PetFect - Animal Detail{% endblock %}
+{% block title %}PetFect - Date{% endblock %}
 
 {% block page_content %}
     {% if animal %}
+        <h1>This is Date Page</h1>
+        <h3>User {{ user.user_name }} want to schedule a date with {{ animal.name }}</h3>
+        <br>
+        <br>
         <div class="column">
             <img class="center crop" src="/{{animal.id}}"/>
         </div>
@@ -32,8 +36,8 @@
             <h5>Availability</h5>
             <div class="animal-caption-subheading text-muted">{{animal.availability}}</div>
         </div>
+        <br>
         <!-- Like and Date button, still need action -->
-        <a class="btn btn-default bg-warning" href="{{ url_for('main.like', user_id=current_user.id, animal_id=animal.id) }}">Like</a>
-        <a class="btn btn-danger" href="{{ url_for('main.date', user_id=current_user.id, animal_id=animal.id) }}">Schedule a Date</a>
+        <a class="btn btn-danger">Send Request</a>
     {% endif %}
 {% endblock %}
