@@ -15,6 +15,7 @@ from .forms import AnimalForm, NewsForm, animal_list, EditProfileForm,\
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 from ..decorators import admin_required
+import pandas as pd
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -81,9 +82,20 @@ def get_img(id):
     return Response(img.img, mimetype=img.img_mimetype)
 
 
-@main.route('/contact')
+@main.route('/contact', methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+    form = ContactForm()
+    if request.method == 'POST':
+        name = request.form["name"]
+        email = request.form["email"]
+        subject = request.form["subject"]
+        message = request.form["message"]
+        time_stamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        res = pd.DataFrame({'name': name, 'email': email, 'subject': subject, 'message': message, 'timestamp': time_stamp}, index=[0])
+        res.to_csv('app/static/messages/contact_message_{}_{}_{}.csv'.format(name, email, time_stamp))
+        return render_template('contact.html', form=form)
+    else:
+        return render_template('contact.html', form=form)
 
 
 @main.route('/animal_breed/<type>')
