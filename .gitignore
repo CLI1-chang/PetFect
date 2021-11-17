@@ -4,4 +4,3 @@
 __pycache__/app.cpython-38.pyc
 *.pyc
 *.sqlite
-data-dev.sqlite
