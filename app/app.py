@@ -3,7 +3,7 @@ from flask import Flask, render_template, session, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, TextField, BooleanField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -54,6 +54,13 @@ class AnimalForm(FlaskForm):
     """ checkboxtest = BooleanField('check')
     checkboxtest2 = BooleanField('check2')"""
     submit = SubmitField(label=('Submit')) 
+
+class ContactForm(FlaskForm):
+    name = TextField("Name")
+    email = TextField("Email")
+    subject = TextField("Subject")
+    message = TextAreaField("Message")
+    submit = SubmitField("Send")
 
 @app.shell_context_processor
 def make_shell_context():

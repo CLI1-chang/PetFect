@@ -1,0 +1,71 @@
+{% extends "home.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<!-- {% for message in get_flashed_messages() %}
+    <div clas=" alert alert-warning alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type = "button" class ="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %} -->
+
+<div class="page-header">
+    <h1>Update Animal Profile!</h1>
+</div>
+<div class="col-md-4">
+    <form method="POST" action="{{url_for('.update', id=animal_to_update.id)}}">
+        {{ form.csrf_token }}
+        {{ form.animal_name.label(class="form-label")}} 
+        {{ form.animal_name(class="form-control", value=animal_to_update.name)}} 
+        <br>
+        {{ form.animal_type.label(class="form-label") }} 
+        {{ form.animal_type(class="form-control") }} 
+        <br/>
+        {{ form.breeds.label(class="form-label") }} 
+        {{ form.breeds(class="form-control")}}
+        <br>
+        <label>Disposition</label>
+        <br>
+        {{form.good_with_animal.label()}}
+        {{form.good_with_animal()}}
+        <br>
+        {{form.good_with_kid.label()}}
+        {{form.good_with_kid()}}
+        <br>
+        {{form.leash_required.label()}}
+        {{form.leash_required()}}
+        <br>
+        <br>
+        {{ form.avail.label(class="form-label") }}
+        {{ form.avail(class="form-control") }}
+ <!--        <br>
+        {{form.image.label}}
+        {{form.image}} -->
+        <br>
+        {{form.description.label(class="form-label") }} 
+        {{form.description(class="form-control", rows = "3")}}
+        <br>
+        {{form.submit()}}
+   </form> 
+   <script>
+    let type_select = document.getElementById('animal_type');
+    let breed_select = document.getElementById('breeds');
+
+    type_select.onchange = function(){
+        type = type_select.value;
+        fetch('/animal_breed/'+type).then(function(response){
+            response.json().then(function(data){
+                let optionHTML = '';
+                for (let breed of data.breeds){
+                    optionHTML += '<option value="'+ breed +'">' + breed + '</option>';
+                }
+                breed_select.innerHTML = optionHTML;
+            });
+        });
+    }
+    </script>
+</div>
+
+<br>
+
+{% endblock %}

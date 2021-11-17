@@ -11,10 +11,11 @@ from .. import db
 from datetime import datetime
 from ..models import Animal, User, Association
 from .forms import AnimalForm, NewsForm, animal_list, EditProfileForm,\
-    SearchAnimal, SearchType, dispos_list, search_breed
+    SearchAnimal, SearchType, dispos_list, search_breed, avail_dict
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 from ..decorators import admin_required
+import pandas as pd
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -136,9 +137,20 @@ def get_img(id):
     return Response(img.img, mimetype=img.img_mimetype)
 
 
-@main.route('/contact')
+@main.route('/contact', methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+    form = ContactForm()
+    if request.method == 'POST':
+        name = request.form["name"]
+        email = request.form["email"]
+        subject = request.form["subject"]
+        message = request.form["message"]
+        time_stamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        res = pd.DataFrame({'name': name, 'email': email, 'subject': subject, 'message': message, 'timestamp': time_stamp}, index=[0])
+        res.to_csv('app/static/messages/contact_message_{}_{}_{}.csv'.format(name, email, time_stamp))
+        return render_template('contact.html', form=form)
+    else:
+        return render_template('contact.html', form=form)
 
 
 @main.route('/animal_breed/<type>')
@@ -182,9 +194,10 @@ def edit_profile():
 
 @main.route('/manage_animal/<int:id>', methods=['GET', 'POST'])
 @admin_required
-def edit_animal_profile(id):
+def manage_animal_profile(id):
     admin_user = User.query.get_or_404(id)
-    return render_template('edit_animal_profile.html', admin_user=admin_user)
+    animals = Animal.query.order_by(Animal.data_created).all()
+    return render_template('manage_animal_profile.html', admin_user=admin_user, animals = animals)
 
 
 @main.route('/create_animal/<int:id>', methods=['GET', 'POST'])
@@ -195,7 +208,6 @@ def create_animal(id):
     form.breeds.choices = animal_list.get("Cats")
     a_type = form.animal_type.data
     a_breed = form.breeds.data
-
     with_animal = form.good_with_animal.data
     with_kid = form.good_with_kid.data
     leashed = form.leash_required.data
@@ -203,7 +215,9 @@ def create_animal(id):
     if a_type and a_breed and form.image.data:
         if with_animal or with_kid or leashed:
             file = request.files[form.image.name]
-            print("Breed is", a_breed)
+            #print("Breed is", a_breed)
+            print(form.avail.data)
+            print(type(form.avail.data))
             animal = Animal(name=form.animal_name.data, 
                             type=form.animal_type.data,
                             breeds=a_breed,
@@ -226,6 +240,50 @@ def create_animal(id):
             # needs to add in an alert 
             print('Must select a disposition!')
     return render_template('create_animal.html', form=form)
+
+@main.route('/update/<int:id>', methods=['GET', 'POST'])
+@admin_required
+def update(id):
+    form = AnimalForm()
+    animal_to_update = Animal.query.get_or_404(id)
+    admin_user = User.query.get_or_404(animal_to_update.owner_id)
+    animals = Animal.query.order_by(Animal.data_created).all()
+    form.animal_type.data = animal_to_update.type
+    form.breeds.choices = animal_list.get(animal_to_update.type)
+    form.breeds.data = animal_to_update.breeds
+    form.good_with_animal.data = animal_to_update.good_with_animal
+    form.good_with_kid.data = animal_to_update.good_with_kid
+    form.leash_required.data = animal_to_update.leash_required
+    form.avail.data = avail_dict.get(animal_to_update.availability)
+    form.description.data = animal_to_update.description
+
+    if request.method == "POST":
+        animal_to_update.name = form.animal_name.data
+        animal_to_update.type = form.animal_type.data
+        animal_to_update.breeds = form.breeds.data
+        animal_to_update.good_with_animal = form.good_with_animal.data
+        animal_to_update.good_with_kid = form.good_with_kid.data
+        animal_to_update.leash_required = form.leash_required.data
+        animal_to_update.availability = dict(form.avail.choices).get(form.avail.data)
+        animal_to_update.description = form.description.data
+        db.session.commit()
+        flash('Animal profile updated successfully!')
+        return redirect(url_for('.manage_animal_profile', id= animal_to_update.owner_id, admin_user=admin_user, animals = animals))
+    return render_template('edit_animal.html', form = form, animal_to_update = animal_to_update)
+
+
+@main.route('/delete/<int:id>')
+@admin_required
+def delete(id):
+    admin_user = User.query.get_or_404(id)
+    animal_to_delete = Animal.query.get_or_404(id)
+    animals = Animal.query.order_by(Animal.data_created).all()
+    try:
+        db.session.delete(animal_to_delete)
+        db.session.commit()
+        flash("Successfully deleted the animal profile!")
+    except:
+        return render_template('manage_animal_profile.html', admin_user=admin_user, animals=animals)
 
 
 @main.route('/manage_news/<int:id>', methods=['GET', 'POST'])
