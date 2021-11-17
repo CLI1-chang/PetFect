@@ -104,7 +104,8 @@ def edit_profile():
 @admin_required
 def edit_animal_profile(id):
     admin_user = User.query.get_or_404(id)
-    return render_template('edit_animal_profile.html', admin_user=admin_user)
+    animals = Animal.query.order_by(Animal.data_created).all()
+    return render_template('edit_animal_profile.html', admin_user=admin_user, animals = animals)
 
 
 @main.route('/create_animal/<int:id>', methods=['GET', 'POST'])
@@ -115,7 +116,6 @@ def create_animal(id):
     form.breeds.choices = animal_list.get("Cats")
     a_type = form.animal_type.data
     a_breed = form.breeds.data
-
     with_animal = form.good_with_animal.data
     with_kid = form.good_with_kid.data
     leashed = form.leash_required.data
@@ -123,7 +123,7 @@ def create_animal(id):
     if a_type and a_breed and form.image.data:
         if with_animal or with_kid or leashed:
             file = request.files[form.image.name]
-            print("Breed is", a_breed)
+            #print("Breed is", a_breed)
             animal = Animal(name=form.animal_name.data, 
                             type=form.animal_type.data,
                             breeds=a_breed,
@@ -146,6 +146,31 @@ def create_animal(id):
             # needs to add in an alert 
             print('Must select a disposition!')
     return render_template('create_animal.html', form=form)
+
+@main.route('/update/<int:id>', methods=['GET', 'POST'])
+@admin_required
+def update(id):
+    form = AnimalForm()
+    animal_to_update = Animal.query.get_or_404(id)
+    if request.method == "POST":
+        animal_to_update.name = request.form['animal_name']
+        animal_to_update.type = request.form['animal_type']
+        animal_to_update.breeds = request.form['breeds']
+        animal_to_update.good_with_animal = form.good_with_animal.data
+        animal_to_update.good_with_kid = form.good_with_kid.data
+        animal_to_update.leash_required = form.leash_required.data
+        animal_to_update.availability = dict(form.avail.choices).get(form.avail.data)
+        animal_to_update.description = form.description.data
+        try:
+            db.session.commit()
+            flash('Animal profile updated successfully!')
+            return render_template('aedit_animal.html', form = form, animal_to_update = animal_to_update)
+        except:
+            flash('Error! Problem occurred!')
+            return render_template('edit_animal.html', form = form, animal_to_update = animal_to_update)
+    return render_template('edit_animal.html', form = form, animal_to_update = animal_to_update)
+
+
 
 
 @main.route('/manage_news/<int:id>', methods=['GET', 'POST'])
