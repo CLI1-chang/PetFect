@@ -17,6 +17,7 @@
             <th scope="col">Good with other animals</th>
             <th scope="col">Good with children</th>
             <th scope="col">Must be leashed at all times</th>
+            <th scope="col">Availability</th>
             <th scope="col">Description</th>
             <th scope="col">Edit</th>
           </tr>
@@ -50,6 +51,9 @@
             {% if animal.leash_required == True %}
                 Yes
             {% endif %} 
+        </td>
+        <td>
+            {{animal.availability}}
         </td>
         <td>
             {{animal.description|truncate()}}

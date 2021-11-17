@@ -2,12 +2,12 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
-{% for message in get_flashed_messages() %}
+<!-- {% for message in get_flashed_messages() %}
     <div clas=" alert alert-warning alert-dismissible fade show" role="alert">
         {{message}}
         <button type = "button" class ="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-{% endfor %}
+{% endfor %} -->
 
 <div class="page-header">
     <h1>Update Animal Profile!</h1>
@@ -19,7 +19,7 @@
         {{ form.animal_name(class="form-control", value=animal_to_update.name)}} 
         <br>
         {{ form.animal_type.label(class="form-label") }} 
-        {{ form.animal_type(class="form-control", value=animal_to_update.type)}} 
+        {{ form.animal_type(class="form-control") }} 
         <br/>
         {{ form.breeds.label(class="form-label") }} 
         {{ form.breeds(class="form-control")}}
@@ -27,23 +27,23 @@
         <label>Disposition</label>
         <br>
         {{form.good_with_animal.label()}}
-        {{form.good_with_animal(value=animal_to_update.good_with_animal)}}
+        {{form.good_with_animal()}}
         <br>
         {{form.good_with_kid.label()}}
-        {{form.good_with_kid(value=animal_to_update.good_with_kid)}}
+        {{form.good_with_kid()}}
         <br>
         {{form.leash_required.label()}}
-        {{form.leash_required(value=animal_to_update.leash_required)}}
+        {{form.leash_required()}}
         <br>
         <br>
         {{ form.avail.label(class="form-label") }}
-        {{ form.avail(class="form-control", value=animal_to_update.availability)}}
-        <br>
+        {{ form.avail(class="form-control") }}
+ <!--        <br>
         {{form.image.label}}
-        {{form.image}}
+        {{form.image}} -->
         <br>
         {{form.description.label(class="form-label") }} 
-        {{form.description(class="form-control", rows = "3", value=animal_to_update.description)}}
+        {{form.description(class="form-control", rows = "3")}}
         <br>
         {{form.submit()}}
    </form> 

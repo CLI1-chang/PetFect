@@ -22,6 +22,12 @@ class MultiCheckboxField(SelectMultipleField):
 dispositions = [('1', 'Good with other animals'),
                 ('2', 'Good with children'),
                 ('3', 'Animal must be leashed at all times')]
+avail_dict = {
+        'Not Available': '1',
+        'Available': '2',
+        'Pending': '3',
+        'Adopted': '4'
+}
 avail_status = [('1', 'Not Available'), ('2', 'Available'),
                 ('3', 'Pending'),('4', 'Adopted')]
 animal_list = {'Cats': ['Ragdoll', 'British Shorthair', 'Others'],
