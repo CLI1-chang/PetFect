@@ -10,7 +10,7 @@ from . import main
 from .. import db
 from datetime import datetime
 from ..models import Animal, User, Association
-from .forms import AnimalForm, NewsForm, animal_list, EditProfileForm,\
+from .forms import AnimalForm, ContactForm, NewsForm, animal_list, EditProfileForm,\
     SearchAnimal, SearchType, dispos_list, search_breed, avail_dict
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
@@ -253,14 +253,18 @@ def update(id):
         animal_to_update.good_with_animal = form.good_with_animal.data
         animal_to_update.good_with_kid = form.good_with_kid.data
         animal_to_update.leash_required = form.leash_required.data
-        animal_to_update.img=file.read()
-        animal_to_update.img_name=secure_filename(file.filename)
-        animal_to_update.img_mimetype=file.mimetype
+        if file.filename == '':
+            flash('No change in picture!')
+        else:
+            animal_to_update.img=file.read()
+            animal_to_update.img_name=secure_filename(file.filename)
+            animal_to_update.img_mimetype=file.mimetype
         animal_to_update.availability = dict(form.avail.choices).get(form.avail.data)
         animal_to_update.description = form.description.data
         db.session.commit()
         flash('Animal profile updated successfully!')
         return redirect(url_for('.manage_animal_profile', id= animal_to_update.owner_id, admin_user=admin_user, animals = animals))
+
     elif request.method == "GET":
         form.animal_type.data = animal_to_update.type
         form.breeds.choices = animal_list.get(animal_to_update.type)
