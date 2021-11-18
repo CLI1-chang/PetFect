@@ -6,7 +6,7 @@ Reference: O'Reilly Flask Web Development
 from flask_wtf import FlaskForm
 from wtforms import widgets, StringField, SubmitField, SelectField, \
     SelectMultipleField, FileField, TextAreaField, BooleanField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, ValidationError
 
 
 class NameForm(FlaskForm):
@@ -44,9 +44,9 @@ class AnimalForm(FlaskForm):
     good_with_kid = BooleanField('Good with children')
     leash_required = BooleanField('Animal must be leashed at all times')
     avail= SelectField('Availability', choices=avail_status)
-    image = FileField('Upload an image', validators=[])
+    image = FileField('Upload an image')
     description= TextAreaField('Description', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    submit = SubmitField()
 
 
 class NewsForm(FlaskForm):

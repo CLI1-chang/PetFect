@@ -146,9 +146,6 @@ def create_animal(id):
     if a_type and a_breed and form.image.data:
         if with_animal or with_kid or leashed:
             file = request.files[form.image.name]
-            #print("Breed is", a_breed)
-            print(form.avail.data)
-            print(type(form.avail.data))
             animal = Animal(name=form.animal_name.data, 
                             type=form.animal_type.data,
                             breeds=a_breed,
@@ -167,54 +164,57 @@ def create_animal(id):
             flash('New animal profile successfully created!')
             print(current_user.user_name)
             return redirect(url_for('main.user', user_name=admin_user.user_name))
-        else:
-            # needs to add in an alert 
-            print('Must select a disposition!')
+    flash('Disposition can not be left blank!')
     return render_template('create_animal.html', form=form)
 
 @main.route('/update/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def update(id):
-    form = AnimalForm()
     animal_to_update = Animal.query.get_or_404(id)
     admin_user = User.query.get_or_404(animal_to_update.owner_id)
+    form = AnimalForm()
     animals = Animal.query.order_by(Animal.data_created).all()
-    form.animal_type.data = animal_to_update.type
-    form.breeds.choices = animal_list.get(animal_to_update.type)
-    form.breeds.data = animal_to_update.breeds
-    form.good_with_animal.data = animal_to_update.good_with_animal
-    form.good_with_kid.data = animal_to_update.good_with_kid
-    form.leash_required.data = animal_to_update.leash_required
-    form.avail.data = avail_dict.get(animal_to_update.availability)
-    form.description.data = animal_to_update.description
+    img = Animal.query.filter_by(id=id).first()
 
     if request.method == "POST":
+        file = request.files[form.image.name]
         animal_to_update.name = form.animal_name.data
         animal_to_update.type = form.animal_type.data
         animal_to_update.breeds = form.breeds.data
         animal_to_update.good_with_animal = form.good_with_animal.data
         animal_to_update.good_with_kid = form.good_with_kid.data
         animal_to_update.leash_required = form.leash_required.data
+        animal_to_update.img=file.read()
+        animal_to_update.img_name=secure_filename(file.filename)
+        animal_to_update.img_mimetype=file.mimetype
         animal_to_update.availability = dict(form.avail.choices).get(form.avail.data)
         animal_to_update.description = form.description.data
         db.session.commit()
         flash('Animal profile updated successfully!')
         return redirect(url_for('.manage_animal_profile', id= animal_to_update.owner_id, admin_user=admin_user, animals = animals))
+    elif request.method == "GET":
+        form.animal_type.data = animal_to_update.type
+        form.breeds.choices = animal_list.get(animal_to_update.type)
+        form.breeds.data = animal_to_update.breeds
+        form.good_with_animal.data = animal_to_update.good_with_animal
+        form.good_with_kid.data = animal_to_update.good_with_kid
+        form.leash_required.data = animal_to_update.leash_required
+        form.avail.data = avail_dict.get(animal_to_update.availability)
+        form.description.data = animal_to_update.description
+    flash('Update unsuccessful, try again!')
     return render_template('edit_animal.html', form = form, animal_to_update = animal_to_update)
 
 
-@main.route('/delete/<int:id>')
+@main.route('/delete_animal/<int:id>', methods=['POST'])
 @admin_required
-def delete(id):
-    admin_user = User.query.get_or_404(id)
+def delete_animal(id):
     animal_to_delete = Animal.query.get_or_404(id)
+    admin_user = User.query.get_or_404(animal_to_delete.owner_id)
     animals = Animal.query.order_by(Animal.data_created).all()
-    try:
-        db.session.delete(animal_to_delete)
-        db.session.commit()
-        flash("Successfully deleted the animal profile!")
-    except:
-        return render_template('manage_animal_profile.html', admin_user=admin_user, animals=animals)
+    db.session.delete(animal_to_delete)
+    db.session.commit()
+    flash("Successfully deleted the animal profile!")
+    return redirect(url_for('.manage_animal_profile', id=animal_to_delete.owner_id, admin_user=admin_user, animals = animals))
 
 
 @main.route('/manage_news/<int:id>', methods=['GET', 'POST'])

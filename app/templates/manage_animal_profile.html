@@ -1,9 +1,9 @@
 {% extends "home.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}PetFect - Edit Profile Admin{% endblock %}
 
 {% block page_content %}
+
 <div class="page-header">
     <h1>Current list of animals</h1>
 </div>
@@ -61,12 +61,31 @@
         <td>
   
             <a href="{{ url_for('.update', id=animal.id)}}" class="btn btn-success active" role="button" aria-pressed="true">Update</a>
-            <button class="btn btn-default bg-warning">Delete</button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{animal.id}}">Delete</button>
+            <div class="modal" id="deleteModal{{animal.id}}" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h5 class="modal-title">Are you sure to delete this animal profile?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="{{url_for('.delete_animal', id=animal.id)}}" method = "POST">
+                            <input class ="btn btn-danger" type ="submit" value="Yes">
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </td>
     </tr>
 {% endfor %}
+
 </table>
 
 <br>
-<a class="btn btn-danger" href="{{ url_for('.create_animal', id=admin_user.id) }}">Create new animal profile</a>
+<a class="btn btn-primary" href="{{ url_for('.create_animal', id=admin_user.id) }}">Create new animal profile</a>
+
+
 {% endblock %}
