@@ -7,6 +7,10 @@
 <link rel="shortcut icon" href="{{ url_for('static', filename='pet.png') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='pet.png') }}" type="image/x-icon">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!--important: overwrite bootstrap opacity so we can show animal details information -->>
+<style type="text/css">
+.fade { opacity: 1;}
+</style>
 {% endblock %}
 
 {% block navbar %}
@@ -72,4 +76,9 @@
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="static/scripts.js"></script>
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 {% endblock %}

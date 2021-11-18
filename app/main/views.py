@@ -10,7 +10,7 @@ from . import main
 from .. import db
 from datetime import datetime
 from ..models import Animal, User, Association
-from .forms import AnimalForm, NewsForm, animal_list, EditProfileForm,\
+from .forms import AnimalForm, ContactForm, NewsForm, animal_list, EditProfileForm,\
     SearchAnimal, SearchType, dispos_list, search_breed, avail_dict
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
