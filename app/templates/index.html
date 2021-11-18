@@ -20,7 +20,7 @@
             <div class="col-lg-4 col-sm-6 mb-4">
                 <!-- Animal items-->
                 <div class="animal-item">
-                    <a class="animal-link" data-bs-toggle="modal" href="#animalModal1">
+                    <a class="animal-link" data-bs-toggle="modal" href="#animalModal{{loop.index0}}">
                         <div class="animal-hover">
                             <div class="animal-hover-content"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
@@ -29,6 +29,7 @@
                     <div class="animal-caption">
                         <div class="animal-caption-heading">{{new_animal.name}}</div>
                         <div class="animal-caption-subheading text-muted">{{new_animal.type}}</div>
+                        <div class="animal-caption-subheading text-muted">{{new_animal.breeds}}</div>
                         <div class="animal-caption-subheading text-muted">{{new_animal.data_created}}</div>
                     </div>
                 </div>
@@ -80,7 +81,7 @@
 <!-- Animal Modals-->
 <!-- Animal item 1 modal popup-->
 {% for new_animal in new_animals %}
-<div class="animal-modal modal fade bg-dark" id="animalModal1" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="animal-modal modal fade" id="animalModal{{loop.index0}}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="close-modal" data-bs-dismiss="modal"><img src="static/close-icon.svg" alt="Close modal" /></div>
@@ -90,18 +91,35 @@
                         <div class="modal-body">
                             <!-- Animal details-->
                             <h2 class="text-uppercase">Animal Name</h2>
-                            <p class="item-intro text-muted">Name of the animal.</p>
-                            <img class="img-fluid d-block mx-auto" src="static/2_cat_snow.jpeg" alt="..." />
-                            <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                            <ul class="list-inline">
+                            <p class="item-intro text-muted"> {{new_animal.name}}</p>
+                            <img class="img-fluid d-block mx-auto" src="/{{new_animal.id}}" alt="..." width="300" height="300"/>
+                            <ul class="list-group" style="list-style: none;">
                                 <li>
-                                    <strong>Name:</strong>
+                                    <strong>Name: {{new_animal.name}}</strong>
                                 </li>
                                 <li>
-                                    <strong>Breed:</strong>
-                                    A
+                                    <strong>Type: {{new_animal.type}} </strong>
+                                </li>
+                                <li>
+                                    <strong>Breed: {{new_animal.breeds}}</strong>
+                                </li>
+                                <li>
+                                    <strong>Good with animals: {{new_animal.good_with_animal}}</strong>
+                                </li>
+                                <li>
+                                    <strong>Good with kids: {{new_animal.good_with_kid}}</strong>
+                                </li>
+                                <li>
+                                    <strong>Leash required: {{new_animal.leash_required}}</strong>
+                                </li>
+                                <li>
+                                    <strong>Availability: {{new_animal.availability}}</strong>
+                                </li>
+                                <li>
+                                    <strong>Date created: {{new_animal.data_created}}</strong>
                                 </li>
                             </ul>
+                            <p> Descriptions: {{new_animal.description}}. </p>
                             <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
                                 <i class="fas fa-times me-1"></i>
                                 Close animal
@@ -114,9 +132,4 @@
     </div>
 </div>
 {% endfor %}
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="static/scripts.js"></script>
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 {% endblock %}
