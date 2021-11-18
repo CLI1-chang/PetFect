@@ -9,12 +9,13 @@ from flask import render_template, session, redirect, url_for, flash, jsonify,\
 from . import main
 from .. import db
 from datetime import datetime
-from ..models import Animal, User
+from ..models import Animal, User, Association
 from .forms import AnimalForm, NewsForm, animal_list, EditProfileForm,\
     SearchAnimal, SearchType, dispos_list, search_breed, avail_dict
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 from ..decorators import admin_required
+import pandas as pd
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -73,6 +74,61 @@ def single_animal(id):
     return render_template('_animal.html', animal=curr_animal)
 
 
+@main.route('/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+def like(user_id, animal_id):
+    curr_animal = Animal.query.get_or_404(animal_id)
+    res = [user_id, animal_id]
+    associations = Association.query.all()
+    for instance in associations:
+        if res == [instance.user_id, instance.animal_id] and instance.like is True:
+            flash('Already liked!')
+            return render_template('_animal.html', animal=curr_animal)
+        elif res == [instance.user_id, instance.animal_id] and instance.like is not True:
+            instance.like = True
+            db.session.commit()
+            return render_template('_animal.html', animal=curr_animal)
+    asso = Association()
+    asso.user_id = user_id
+    asso.animal_id = animal_id
+    asso.like = True
+    db.session.add(asso)
+    db.session.commit()
+    return render_template('_animal.html', animal=curr_animal)
+
+
+@main.route('/user_like/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+def user_like(user_id, animal_id):
+    curr_user = User.query.get_or_404(user_id)
+    like_item = Association.query.filter_by(user_id=user_id).filter_by(
+        animal_id=animal_id).first_or_404()
+    like_item.like = True
+    db.session.commit()
+    animal_list = db.session.query(Animal, Association).\
+        join(Association, Association.animal_id == Animal.id).filter_by(
+        user_id=user_id).all()
+    return render_template('user.html', user=curr_user, animals=animal_list)
+
+
+@main.route('/unlike/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+def unlike(user_id, animal_id):
+    curr_user = User.query.get_or_404(user_id)
+    unlike_item = Association.query.filter_by(user_id=user_id).filter_by(
+        animal_id=animal_id).first_or_404()
+    unlike_item.like = False
+    db.session.commit()
+    animal_list = db.session.query(Animal, Association). \
+        join(Association, Association.animal_id == Animal.id).filter_by(
+        user_id=user_id).all()
+    return render_template('user.html', user=curr_user, animals=animal_list)
+
+
+@main.route('/date/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+def date(user_id, animal_id):
+    curr_user = User.query.get_or_404(user_id)
+    curr_animal = Animal.query.get_or_404(animal_id)
+    return render_template('date.html', user=curr_user, animal=curr_animal)
+
+
 @main.route('/<int:id>')
 def get_img(id):
     img = Animal.query.filter_by(id=id).first()
@@ -81,9 +137,20 @@ def get_img(id):
     return Response(img.img, mimetype=img.img_mimetype)
 
 
-@main.route('/contact')
+@main.route('/contact', methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+    form = ContactForm()
+    if request.method == 'POST':
+        name = request.form["name"]
+        email = request.form["email"]
+        subject = request.form["subject"]
+        message = request.form["message"]
+        time_stamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        res = pd.DataFrame({'name': name, 'email': email, 'subject': subject, 'message': message, 'timestamp': time_stamp}, index=[0])
+        res.to_csv('app/static/messages/contact_message_{}_{}_{}.csv'.format(name, email, time_stamp))
+        return render_template('contact.html', form=form)
+    else:
+        return render_template('contact.html', form=form)
 
 
 @main.route('/animal_breed/<type>')
@@ -101,7 +168,9 @@ def news_item():
 @main.route('/user/<user_name>')
 def user(user_name):
     curr_user = User.query.filter_by(user_name=user_name).first_or_404()
-    return render_template('user.html', user=curr_user)
+    curr_user_id = curr_user.id
+    animal_list = db.session.query(Animal, Association).join(Association, Association.animal_id == Animal.id).filter_by(user_id=curr_user_id).all()
+    return render_template('user.html', user=curr_user, animals=animal_list)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])

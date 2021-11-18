@@ -24,7 +24,7 @@
     <br>
     <p>
         {% if current_user.is_user() %}
-        <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
+        <a class="btn btn-default bg-warning" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
         {% endif %}
         {% if current_user.is_administrator() %}
         <a class="btn btn-default bg-warning" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
@@ -34,13 +34,40 @@
     </p>
 </div>
 {% if current_user.is_user() %}
-<div class="animal-item">
-    <p>Normal User Animal list</p>
+<div>
+<table style="width:80%">
+<tr>
+    <th>Animal Name</th>
+    <th>Animal Type</th>
+    <th>Animal Breed</th>
+    <th>Availability</th>
+    <th>Like/Unlike</th>
+    <th>Date</th>
+</tr>
+    {% for animal, association in animals %}
+        <tr>
+        <td>{{ animal.name }}</td>
+        <td>{{ animal.type }}</td>
+        <td>{{ animal.breeds }}</td>
+        <td>{{ animal.availability }}</td>
+        {% if association.like == True %}
+        <td><a class="btn btn-default bg-warning" href="{{ url_for('main.unlike', user_id=current_user.id, animal_id=animal.id) }}">Unlike</a></td>
+        {% else %}
+        <td><a class="btn btn-default bg-warning" href="{{ url_for('main.user_like', user_id=current_user.id, animal_id=animal.id) }}">Like</a></td>
+        {% endif %}
+        {% if association.date != True %}
+        <td><a class="btn btn-default bg-warning" href="{{ url_for('main.date', user_id=current_user.id, animal_id=animal.id) }}">Date</a></td>
+        {% else %}
+        <td><a class="btn btn-default bg-danger">Already Dated</a></td>
+        {% endif %}
+        </tr>
+    {% endfor %}
+</table>
 </div>
 {% endif %}
 {% if current_user.is_administrator() %}
 <div class="animal-item">
-    <p>Shelter Admin Animal list</p>
+    <p>Shelter Admin Profile</p>
 </div>
 {% endif %}
 {% endblock %}

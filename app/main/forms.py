@@ -4,9 +4,9 @@ Reference: O'Reilly Flask Web Development
 """
 
 from flask_wtf import FlaskForm
-from wtforms import widgets, StringField, SubmitField, SelectField, \
-    SelectMultipleField, FileField, TextAreaField, BooleanField
+from wtforms import widgets, StringField, SubmitField, SelectField, SelectMultipleField, FileField, TextField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, ValidationError
+
 
 
 class NameForm(FlaskForm):
@@ -88,3 +88,11 @@ class SearchAnimal(FlaskForm):
 class SearchType(FlaskForm):
     animal_type = SelectField('Choose Type', choices=search_type)
     submit = SubmitField('Search By Type')
+
+
+class ContactForm(FlaskForm):
+    name = TextField("Name")
+    email = TextField("Email")
+    subject = TextField("Subject")
+    message = TextAreaField("Message")
+    submit = SubmitField("Send")
