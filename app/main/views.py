@@ -205,6 +205,7 @@ def manage_animal_profile(id):
 def create_animal(id):
     admin_user = User.query.get_or_404(id)
     form = AnimalForm()
+    animals = Animal.query.order_by(Animal.data_created).all()
     form.breeds.choices = animal_list.get("Cats")
     a_type = form.animal_type.data
     a_breed = form.breeds.data
@@ -231,8 +232,7 @@ def create_animal(id):
             db.session.add(animal)
             db.session.commit()
             flash('New animal profile successfully created!')
-            print(current_user.user_name)
-            return redirect(url_for('main.user', user_name=admin_user.user_name))
+            return redirect(url_for('.manage_animal_profile', id=admin_user.id, admin_user=admin_user,animals = animals))
     flash('Disposition can not be left blank!')
     return render_template('create_animal.html', form=form)
 
@@ -244,8 +244,16 @@ def update(id):
     form = AnimalForm()
     animals = Animal.query.order_by(Animal.data_created).all()
     img = Animal.query.filter_by(id=id).first()
-
+ 
     if request.method == "POST":
+        with_animal = form.good_with_animal.data
+        with_kid = form.good_with_kid.data
+        leashed = form.leash_required.data
+        if not (with_animal or with_kid or leashed):
+            form.breeds.choices = animal_list.get(animal_to_update.type)
+            form.breeds.data = animal_to_update.breeds
+            flash('Disposition can not be left blank!')
+            return render_template('edit_animal.html', form = form, animal_to_update = animal_to_update)
         file = request.files[form.image.name]
         animal_to_update.name = form.animal_name.data
         animal_to_update.type = form.animal_type.data
@@ -264,7 +272,6 @@ def update(id):
         db.session.commit()
         flash('Animal profile updated successfully!')
         return redirect(url_for('.manage_animal_profile', id= animal_to_update.owner_id, admin_user=admin_user, animals = animals))
-
     elif request.method == "GET":
         form.animal_type.data = animal_to_update.type
         form.breeds.choices = animal_list.get(animal_to_update.type)
@@ -274,7 +281,6 @@ def update(id):
         form.leash_required.data = animal_to_update.leash_required
         form.avail.data = avail_dict.get(animal_to_update.availability)
         form.description.data = animal_to_update.description
-    flash('Update unsuccessful, try again!')
     return render_template('edit_animal.html', form = form, animal_to_update = animal_to_update)
 
 

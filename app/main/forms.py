@@ -34,7 +34,6 @@ animal_list = {'Cats': ['Ragdoll', 'British Shorthair', 'Others'],
                'Dogs': ['Golden Retriever', 'Pug', 'Others'],
                'Others': ['Hamster', 'Reptile']}
 
-
 class AnimalForm(FlaskForm):
     animal_name = StringField('What is her/his name?', validators=[DataRequired()])
     types = list(animal_list.keys())               
