@@ -41,8 +41,10 @@ def animal():
             filter_1 = Animal.type == type
             animals = Animal.query.filter(filter_1).all()
         else:
-            animals = Animal.query.filter(Animal.availability == 'Available').all()
-        return render_template('animal.html', form1=form1, form2=form2, animals=animals)
+            animals = Animal.query.filter(
+                Animal.availability == 'Available').all()
+        return render_template('animal.html', form1=form1, form2=form2,
+                               animals=animals), type
 
     if form2.is_submitted():
         breed = form2.animal_breed.data
@@ -68,7 +70,7 @@ def animal():
     return render_template("animal.html", form1=form1, form2=form2, animals=animals)
 
 
-@main.route('/animal/<int:id>')
+@main.route('/_animal/<int:id>')
 def single_animal(id):
     curr_animal = Animal.query.get_or_404(id)
     return render_template('_animal.html', animal=curr_animal)
@@ -155,6 +157,19 @@ def dated(user_id, animal_id):
     db.session.commit()
     flash('Request sent! Hope to meet the perfect one!')
     return render_template('_animal.html', animal=curr_animal)
+
+
+@main.route('/user_delete/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+def user_delete(user_id, animal_id):
+    delete_item = Association.query.filter_by(user_id=user_id).filter_by(animal_id=animal_id).first()
+    db.session.delete(delete_item)
+    db.session.commit()
+    flash('Delete Successful!')
+    curr_user = User.query.get_or_404(user_id)
+    animal_list = db.session.query(Animal, Association).\
+        join(Association, Association.animal_id == Animal.id).\
+        filter_by(user_id=curr_user.id).all()
+    return render_template('user.html', user=curr_user, animals=animal_list)
 
 
 @main.route('/<int:id>')

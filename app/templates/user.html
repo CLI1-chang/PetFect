@@ -35,14 +35,16 @@
 </div>
 {% if current_user.is_user() %}
 <div>
-<table style="width:80%">
+<table style="width:100%">
 <tr>
     <th>Animal Name</th>
     <th>Animal Type</th>
     <th>Animal Breed</th>
     <th>Availability</th>
+    <th>View Detail</th>
     <th>Like/Unlike</th>
     <th>Date</th>
+    <th>Delete</th>
 </tr>
     {% for animal, association in animals %}
         <tr>
@@ -50,6 +52,9 @@
         <td>{{ animal.type }}</td>
         <td>{{ animal.breeds }}</td>
         <td>{{ animal.availability }}</td>
+        <td><form action="/_animal/{{ animal.id }}">
+            <button class="btn btn-default bg-warning">Detail Page</button>
+        </form></td>
         {% if association.like == True %}
         <td><a class="btn btn-default bg-warning" href="{{ url_for('main.unlike', user_id=current_user.id, animal_id=animal.id) }}">Unlike</a></td>
         {% else %}
@@ -60,6 +65,7 @@
         {% else %}
         <td><a class="btn btn-default bg-danger">Already Dated</a></td>
         {% endif %}
+        <td><a class="btn btn-default bg-danger" href="{{ url_for('main.user_delete', user_id=current_user.id, animal_id=animal.id) }}">Delete</a></td>
         </tr>
     {% endfor %}
 </table>

@@ -5,7 +5,7 @@ Reference: O'Reilly Flask Web Development
 
 from flask_wtf import FlaskForm
 from wtforms import widgets, StringField, SubmitField, SelectField, SelectMultipleField, FileField, TextField, TextAreaField, BooleanField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired
 
 
 
