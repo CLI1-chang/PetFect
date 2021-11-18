@@ -129,6 +129,34 @@ def date(user_id, animal_id):
     return render_template('date.html', user=curr_user, animal=curr_animal)
 
 
+@main.route('/dated/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+def dated(user_id, animal_id):
+    curr_animal = Animal.query.get_or_404(animal_id)
+    if curr_animal.availability != 'Available':
+        flash('Animal is not available! Please try later!')
+    res = [user_id, animal_id]
+    associations = Association.query.all()
+    for instance in associations:
+        if res == [instance.user_id,
+                   instance.animal_id] and instance.date is True:
+            flash('Already dated!')
+            return render_template('_animal.html', animal=curr_animal)
+        elif res == [instance.user_id,
+                     instance.animal_id] and instance.date is not True:
+            instance.date = True
+            db.session.commit()
+            flash('Request sent! Hope to meet the perfect one!')
+            return render_template('_animal.html', animal=curr_animal)
+    asso = Association()
+    asso.user_id = user_id
+    asso.animal_id = animal_id
+    asso.date = True
+    db.session.add(asso)
+    db.session.commit()
+    flash('Request sent! Hope to meet the perfect one!')
+    return render_template('_animal.html', animal=curr_animal)
+
+
 @main.route('/<int:id>')
 def get_img(id):
     img = Animal.query.filter_by(id=id).first()

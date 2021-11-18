@@ -4,8 +4,8 @@
 
 {% block page_content %}
     {% if animal %}
-        <h1>This is Date Page</h1>
-        <h3>User {{ user.user_name }} want to schedule a date with {{ animal.name }}</h3>
+        <h1>Hi {{ user.user_name }}</h1>
+        <h3>please follow instruction to schedule a date with {{ animal.name }}</h3>
         <br>
         <br>
         <div class="column">
@@ -35,9 +35,22 @@
             <br>
             <h5>Availability</h5>
             <div class="animal-caption-subheading text-muted">{{animal.availability}}</div>
-        </div>
+            <br>
+            <a class="btn btn-danger" href="{{ url_for('main.dated', user_id=current_user.id, animal_id=animal.id) }}">Date Scheduled</a>
+            <br>
         <br>
-        <!-- Like and Date button, still need action -->
-        <a class="btn btn-danger">Send Request</a>
+        </div>
+
+        <section>
+            <div class="column">
+            <h1>Instruction:</h1>
+            <h4>Please send email to: {{ user.email }}</h4>
+            <h4>Subject: [PetFect] Schedule Date with {{ animal.name }}</h4>
+            <h4>Body: introduce yourself and list all available time</h4>
+            <h4>Signature: Your true name and contact methods</h4>
+            <h5 style="color:indianred;">Send email out and click button</h5>
+            </div>
+        </section>
+
     {% endif %}
 {% endblock %}
