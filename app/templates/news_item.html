@@ -5,9 +5,11 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>This is New Item Page.</hs1>
+    <h1>Create news</hs1>
 </div>
-<div class="col-md-5">
-    {{ wtf.quick_form(form) }}
+<div class="col-md-7">
+    <form method="POST" enctype = "multipart/form-data">
+        {{ wtf.quick_form(form) }}
+    </form>
 </div>
 {% endblock %}

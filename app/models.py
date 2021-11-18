@@ -39,7 +39,6 @@ class Association(db.Model):
     user = db.relationship('User', back_populates='user_animal')
 
 
-
 class Animal(db.Model):
     __tablename__ = 'animals'
     # primary key of animal
@@ -61,10 +60,18 @@ class Animal(db.Model):
     description = db.Column(db.String(200), nullable=False)
     data_created = db.Column(db.DateTime, default=datetime.utcnow)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('Association', back_populates='animal')
+    user = db.relationship('Association', back_populates='animal', cascade="all,delete")
 
     def __repr__(self):
         return '<Animal %r>' % self.id
+
+class News(db.Model):
+    __tablename__ = 'news'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(64),unique= True, nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    date = db.Column(db.DateTime(), default=datetime.utcnow())
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
 class User(UserMixin, db.Model):
@@ -80,6 +87,7 @@ class User(UserMixin, db.Model):
     member_since = db.Column(db.DateTime(), default=datetime.utcnow())
 
     animals = db.relationship('Animal', backref='owner', lazy='dynamic')
+    news = db.relationship('News', backref='owner', lazy='dynamic')
     user_animal = db.relationship('Association', back_populates='user')
     # def __init__(self, **kwargs):
     #     super(User, self).__init__(**kwargs)

@@ -1,0 +1,55 @@
+{% extends "home.html" %}
+
+{% block title %}PetFect - Edit Profile Admin{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>News List</h1>
+    </div>
+    <table class="table table-hover table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+    {% for item in news %}
+        <tr>
+            <td>
+                {{item.date.date()}}
+            </td>
+            <td>
+                {{item.title}}
+            </td>
+            <td>
+                {{item.description|truncate()}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{item.id}}">Delete</button>
+                <div class="modal" id="deleteModal{{item.id}}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+
+                            <h5 class="modal-title">Are you sure to delete the news?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="{{url_for('.delete_news', id=item.id)}}" method = "POST">
+                                <input class ="btn btn-danger" type ="submit" value="Yes">
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <br>
+    <a class="btn btn-primary" href="{{ url_for('.create_news', id = admin_user.id)}}">Create news</a>
+
+{% endblock %}

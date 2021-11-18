@@ -9,7 +9,7 @@ from flask import render_template, session, redirect, url_for, flash, jsonify,\
 from . import main
 from .. import db
 from datetime import datetime
-from ..models import Animal, User, Association
+from ..models import Animal, User, Association, News
 from .forms import AnimalForm, ContactForm, NewsForm, animal_list, EditProfileForm,\
     SearchAnimal, SearchType, dispos_list, search_breed, avail_dict
 from werkzeug.utils import secure_filename
@@ -159,12 +159,6 @@ def animal_breed(type):
     return jsonify({'breeds': breeds})
 
 
-@main.route('/news_item')
-def news_item():
-    form = NewsForm()
-    return render_template("news_item.html", form=form)
-
-
 @main.route('/user/<user_name>')
 def user(user_name):
     curr_user = User.query.filter_by(user_name=user_name).first_or_404()
@@ -196,7 +190,7 @@ def edit_profile():
 @admin_required
 def manage_animal_profile(id):
     admin_user = User.query.get_or_404(id)
-    animals = Animal.query.order_by(Animal.data_created).all()
+    animals = Animal.query.filter(Animal.owner_id== id).all()
     return render_template('manage_animal_profile.html', admin_user=admin_user, animals = animals)
 
 
@@ -233,7 +227,8 @@ def create_animal(id):
             db.session.commit()
             flash('New animal profile successfully created!')
             return redirect(url_for('.manage_animal_profile', id=admin_user.id, admin_user=admin_user,animals = animals))
-    flash('Disposition can not be left blank!')
+        flash('Disposition can not be left blank!')
+    flash ('Must upload a photo!')
     return render_template('create_animal.html', form=form)
 
 @main.route('/update/<int:id>', methods=['GET', 'POST'])
@@ -296,9 +291,38 @@ def delete_animal(id):
     return redirect(url_for('.manage_animal_profile', id=animal_to_delete.owner_id, admin_user=admin_user, animals = animals))
 
 
-@main.route('/manage_news/<int:id>', methods=['GET', 'POST'])
+@main.route('/manage_news/<int:user_id>', methods=['GET', 'POST'])
 @admin_required
-def edit_news(id):
-    admin_user = User.query.get_or_404(id)
-    return render_template('edit_news.html',admin_user=admin_user)
+def manage_news(user_id):
+    admin_user = User.query.get_or_404(user_id)
+    curr_news = News.query.filter(News.owner_id== user_id).all()
+    return render_template('manage_news.html',admin_user=admin_user, news = curr_news)
 
+
+@main.route('/create_news/<int:id>', methods=['GET', 'POST'])
+def create_news(id):
+    admin_user = User.query.get_or_404(id)
+    form = NewsForm()
+    news = News.query.order_by(News.date).all()
+    if form.validate_on_submit():
+        news_item = News(title=form.news_title.data, 
+                        description=form.description.data,
+                        owner_id=admin_user.id)
+        db.session.add(news_item)
+        db.session.commit()
+        flash('News successfully created!')
+        return redirect(url_for('.manage_news', user_id = id, admin_user=admin_user, news = news))
+    form.news_title.data = 'News Title'
+    form.description.data = 'News Description'
+    return render_template("news_item.html", form=form)
+
+@main.route('/delete_news/<int:id>', methods=['POST'])
+@admin_required
+def delete_news(id):
+    news_to_delete = News.query.get_or_404(id)
+    admin_user = User.query.get_or_404(news_to_delete.owner_id)
+    news = News.query.order_by(News.date).all()
+    db.session.delete(news_to_delete)
+    db.session.commit()
+    flash("Successfully deleted the news!")
+    return redirect(url_for('.manage_news', user_id = admin_user.id, admin_user=admin_user, news = news))
