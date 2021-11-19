@@ -21,7 +21,7 @@ import pandas as pd
 @main.route('/', methods=['GET', 'POST'])
 def index():
     new_animals = Animal.query.order_by(Animal.data_created.desc()).limit(6).all()
-    news = News.query.order_by(News.date.desc()).limit(3).all()
+    news = News.query.order_by(News.date.desc()).limit(9).all()
     return render_template('index.html', new_animals=new_animals, news=news)
 
 
