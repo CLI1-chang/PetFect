@@ -7,7 +7,7 @@
 <div class="page-header">
     <h1>Current list of animals</h1>
 </div>
-<table class="table table-hover table-bordered table-striped">
+<table class="table table-hover table-bordered table-striped fs-5 wrap-text">
     <thead class="thead-dark">
         <tr>
             <th scope="col">Date</th>
@@ -56,12 +56,12 @@
             {{animal.availability}}
         </td>
         <td>
-            {{animal.description|truncate()}}
+            {{animal.description|truncate(50)}}
         </td>
         <td>
   
-            <a href="{{ url_for('.update', id=animal.id)}}" class="btn btn-success active" role="button" aria-pressed="true">Update</a>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{animal.id}}">Delete</button>
+            <a href="{{ url_for('.update', id=animal.id)}}" class="btn btn-success active btn-lg" role="button" aria-pressed="true">Update</a>
+            <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteModal{{animal.id}}">Delete</button>
             <div class="modal" id="deleteModal{{animal.id}}" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -85,7 +85,7 @@
 </table>
 
 <br>
-<a class="btn btn-primary" href="{{ url_for('.create_animal', id=admin_user.id) }}">Create new animal profile</a>
-
+<a class="btn btn-primary btn-lg" href="{{ url_for('.create_animal', id=admin_user.id) }}">Create new animal profile</a>
+<a href="{{ url_for('.user', user_name = admin_user.user_name ) }}" class="btn btn-lg btn-secondary" role="button" aria-pressed="true">Cancel</a>
 
 {% endblock %}

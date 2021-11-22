@@ -4,7 +4,7 @@
 {% block content %}
 {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <ul class=flashes>
+    <ul class= "flashes fs-4">
     {% for message in messages %}
       <li>{{ message }}</li>
     {% endfor %}
@@ -15,17 +15,17 @@
 <div class="page-header">
     <h1>Create A New Animal Profile</h1>
 </div>
-<div class="col-md-4">
+<div class="col-md-8 fs-4">
     <form method="POST" enctype = "multipart/form-data">
         {{ form.csrf_token }}
         {{ form.animal_name.label(class="form-label") }} 
-        {{ form.animal_name(class="form-control")}} 
+        {{ form.animal_name(class="form-control fs-4")}} 
         <br>
         {{ form.animal_type.label(class="form-label") }} 
-        {{ form.animal_type(class="form-control")}} 
+        {{ form.animal_type(class="form-control fs-4")}} 
         <br/>
         {{ form.breeds.label(class="form-label") }} 
-        {{ form.breeds(class="form-control")}}
+        {{ form.breeds(class="form-control fs-4")}}
         <br>
         <label>Disposition</label>
         <br>
@@ -40,15 +40,16 @@
         <br>
         <br>
         {{ form.avail.label(class="form-label") }}
-        {{ form.avail(class="form-control")}}
+        {{ form.avail(class="form-control fs-4")}}
         <br>
         {{form.image.label}}
         {{form.image}}
         <br>
         {{form.description.label(class="form-label") }} 
-        {{form.description(class="form-control", rows = "3")}}
+        {{form.description(class="form-control fs-4", rows = "3")}}
         <br>
-        {{form.submit()}}
+        <button class="btn btn-outline-dark fs-4" type="submit">Submit</button>
+        <a href="{{ url_for('.manage_animal_profile', id = admin_user.id ) }}" class="btn btn-secondary fs-4" role="button" aria-pressed="true">Cancel</a>
    </form> 
    <script>
     let type_select = document.getElementById('animal_type');

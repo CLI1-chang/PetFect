@@ -27,9 +27,9 @@
         <a class="btn btn-default bg-warning" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
         {% endif %}
         {% if current_user.is_administrator() %}
-        <a class="btn btn-default bg-warning" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
-        <a class="btn btn-danger" href="{{ url_for('.manage_animal_profile', id=user.id) }}">Manage Animals</a>
-        <a class="btn btn-danger" href="{{ url_for('.manage_news', user_id=user.id) }}">Manage News</a>
+        <a class="btn btn-default bg-warning btn-lg" href="{{ url_for('.edit_profile') }}">Edit Profile</a>
+        <a class="btn btn-info btn-lg" href="{{ url_for('.manage_animal_profile', id=user.id) }}">Manage Animals</a>
+        <a class="btn btn-outline-dark btn-lg" href="{{ url_for('.manage_news', user_id=user.id) }}">Manage News</a>
         {% endif %}
     </p>
 </div>
@@ -73,7 +73,7 @@
 {% endif %}
 {% if current_user.is_administrator() %}
 <div class="animal-item">
-    <p>Shelter Admin Profile</p>
+    <p>How to use...</p>
 </div>
 {% endif %}
 {% endblock %}

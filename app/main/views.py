@@ -273,7 +273,7 @@ def create_animal(id):
             return redirect(url_for('.manage_animal_profile', id=admin_user.id, admin_user=admin_user,animals = animals))
         flash('Disposition can not be left blank!')
     flash ('Must upload a photo!')
-    return render_template('create_animal.html', form=form)
+    return render_template('create_animal.html', admin_user = admin_user, form=form)
 
 @main.route('/update/<int:id>', methods=['GET', 'POST'])
 @admin_required
