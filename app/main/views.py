@@ -72,12 +72,14 @@ def animal():
 
 
 @main.route('/_animal/<int:id>')
+@login_required
 def single_animal(id):
     curr_animal = Animal.query.get_or_404(id)
     return render_template('_animal.html', animal=curr_animal)
 
 
 @main.route('/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+@login_required
 def like(user_id, animal_id):
     curr_animal = Animal.query.get_or_404(animal_id)
     res = [user_id, animal_id]
@@ -100,6 +102,7 @@ def like(user_id, animal_id):
 
 
 @main.route('/user_like/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+@login_required
 def user_like(user_id, animal_id):
     curr_user = User.query.get_or_404(user_id)
     like_item = Association.query.filter_by(user_id=user_id).filter_by(
@@ -113,6 +116,7 @@ def user_like(user_id, animal_id):
 
 
 @main.route('/unlike/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+@login_required
 def unlike(user_id, animal_id):
     curr_user = User.query.get_or_404(user_id)
     unlike_item = Association.query.filter_by(user_id=user_id).filter_by(
@@ -126,13 +130,16 @@ def unlike(user_id, animal_id):
 
 
 @main.route('/date/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+@login_required
 def date(user_id, animal_id):
     curr_user = User.query.get_or_404(user_id)
     curr_animal = Animal.query.get_or_404(animal_id)
-    return render_template('date.html', user=curr_user, animal=curr_animal)
+    owner = User.query.get_or_404(curr_animal.owner_id)
+    return render_template('date.html', user=curr_user, animal=curr_animal, owner=owner)
 
 
 @main.route('/dated/<int:user_id>/<int:animal_id>', methods=['GET', 'POST'])
+@login_required
 def dated(user_id, animal_id):
     curr_animal = Animal.query.get_or_404(animal_id)
     if curr_animal.availability != 'Available':
@@ -204,6 +211,7 @@ def animal_breed(type):
 
 
 @main.route('/user/<user_name>')
+@login_required
 def user(user_name):
     curr_user = User.query.filter_by(user_name=user_name).first_or_404()
     curr_user_id = curr_user.id
