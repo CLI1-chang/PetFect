@@ -8,7 +8,6 @@ from wtforms import widgets, StringField, SubmitField, SelectField, SelectMultip
 from wtforms.validators import DataRequired
 
 
-
 class NameForm(FlaskForm):
     name = StringField('Please tell us your name', validators=[DataRequired()])
     submit = SubmitField('Submit')
