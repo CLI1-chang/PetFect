@@ -4,53 +4,36 @@
 {% block title %}PetFect - About{% endblock %}
 
 {% block page_content %}
-<section class="page-section" id="contact">
-<!-- Contact-->
-<div class="container">
+<div class="contact">
     <div class="text-center">
-        <h2 class="section-heading">Contact Us</h2>
-        <h3 class="section-subheading text-muted">We love to hear from you.</h3>
+       <h2 class="section-heading">Contact Us</h2>
+       <h3 class="section-subheading text-muted">We love to hear from you.</h3>
     </div>
     <form id="contactForm" action="{{ url_for('main.contact') }}" method=post>
-        <div>
-            <div class="row align-items-stretch mb-5">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <!-- name forms -->
-                        {{ form.name.label }} <br>
-                        {{ form.name(placeholder='Your name') }}
-                    </div>
-                    <div class="form-group">
-                        <!-- email forms -->
-                        <p>
-                            {{ form.email.label }} <br>
-                            {{ form.email(placeholder='Your e-mail ...') }}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <!-- Subject of your request -->
-                        <p>
-                            {{form.subject.label }}<br>
-                            {{form.subject(placeholder='Your subject ...')}}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <!-- Content of your request -->
-                        <p>
-                            {{ form.message.label }}<br>
-                            {{ form.message(placeholder='Write your request ...') }}
-                        </p>
-                    </div>
-                    <div class="form-group">
-                        <!-- Submit button -->
-                        <p>
-                            {{ form.submit }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+       <div>
+          <p>
+             <!-- name forms -->
+             {{ form.name.label }} <br>
+             {{ form.name(placeholder='Your name')}}
+          </p>
+          <p>
+             {{ form.email.label }} <br>
+             {{ form.email(placeholder='Your e-mail ...') }}
+          </p>
+          <!-- Subject of your request -->
+          <p>
+             {{form.subject.label }}<br>
+             {{form.subject(placeholder='Your subject ...')}}
+          </p>
+          <!-- Content of your request -->
+          <p>
+             {{ form.message.label }}<br>
+             {{ form.message(placeholder='Tell us anything you want to say ...') }}
+          </p>
+          <p>
+             {{ form.submit }}
+          </p>
+       </div>
     </form>
-</div>
-</section>
-{% endblock %}
+ </div>
+ {% endblock %}

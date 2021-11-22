@@ -23,7 +23,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}"><img src="static/website_logo.png" alt="..." width="140" /></a>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}"><img src="{{ url_for('static', filename='website_logo.png') }}" alt="..." width="140" /></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -79,6 +79,6 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="static/scripts.js"></script>
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 {% endblock %}
