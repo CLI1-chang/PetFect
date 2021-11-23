@@ -214,13 +214,27 @@ def animal_breed(type):
     return jsonify({'breeds': breeds})
 
 
+class AnimalLike:
+    def __init__(self, id, name, count):
+        self.name = name
+        self.id = id
+        self.count = count
+
 @main.route('/user/<user_name>')
 @login_required
 def user(user_name):
     curr_user = User.query.filter_by(user_name=user_name).first_or_404()
     curr_user_id = curr_user.id
     animal_list = db.session.query(Animal, Association).join(Association, Association.animal_id == Animal.id).filter_by(user_id=curr_user_id).all()
-    return render_template('user.html', user=curr_user, animals=animal_list)
+    admin_animal_list = Animal.query.filter_by(owner_id = curr_user_id)
+    animal_like_list = []
+    for animal in admin_animal_list:
+        animal_like_data = Association.query.filter_by(animal_id = animal.id, like = True).all()
+        print(animal_like_data)
+        count = len(animal_like_data)
+        animal_like = AnimalLike(animal.id, animal.name, count)
+        animal_like_list.append(animal_like)
+    return render_template('user.html', user=curr_user, animals=animal_list, animal_likes = animal_like_list)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])

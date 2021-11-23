@@ -72,8 +72,22 @@
 </div>
 {% endif %}
 {% if current_user.is_administrator() %}
-<div class="animal-item">
-    <p>How to use...</p>
+<div class="animal-item fs-4">
+    <p>How many likes the animals you've posted:</p>
 </div>
+<div class="animal-item fs-4">
+    <table>
+    <tr>
+        <th>Animal Name</th>
+        <th>Likes</th>
+    </tr>
+        {% for animal_like in animal_likes %}
+            <tr>
+            <td>{{ animal_like.name }}</td>
+            <td>{{ animal_like.count }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
 {% endif %}
 {% endblock %}
