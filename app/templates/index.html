@@ -258,7 +258,7 @@
                 </div>
                 <div class="text-center">
                     {% if current_user.is_authenticated %}
-                        <a class="btn btn-primary btn-xl text-uppercase" href="{{ url_for('main.petfect')}}">Click Here!!</a>
+                        <a class="btn btn-primary btn-xl text-uppercase" href="{{ url_for('main.user', user_name=current_user.user_name)}}">Click Here!!</a>
                     {% else %}
                         <a class="btn btn-primary btn-xl text-uppercase" href="{{ url_for('auth.register')}}">Click Here!!</a>
                     {% endif %}
