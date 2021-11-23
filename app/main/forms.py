@@ -29,9 +29,11 @@ avail_dict = {
 }
 avail_status = [('1', 'Not Available'), ('2', 'Available'),
                 ('3', 'Pending'),('4', 'Adopted')]
-animal_list = {'Cats': ['Ragdoll', 'British Shorthair', 'Others'],
-               'Dogs': ['Golden Retriever', 'Pug', 'Others'],
-               'Others': ['Hamster', 'Reptile']}
+animal_list = {'Cats': ['Ragdoll', 'Exotic','British Shorthair', 'Maine Coon Cat', 'American Shorthair', 'Others'],
+               'Dogs': ['Golden Retriever', 'Labrador','French Bulldogs', 'Bulldog','German Shepherd Dogs', 'Pug','Others'],
+               'Fish':['Betta', 'Goldfish', 'Angelfish', 'Catfish','Mollies', 'Others'],
+               'Reptiles':['Leopard gecko','Corn snake', 'African sulcata tortoise', 'Ball python', 'Red-eared slider','Others'],
+               'Others': ['Hamster', 'Parakeet', 'Guinea pig', 'Others']}
 
 class AnimalForm(FlaskForm):
     animal_name = StringField('What is her/his name?', validators=[DataRequired()])
