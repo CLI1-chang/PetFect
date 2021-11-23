@@ -20,9 +20,13 @@ import pandas as pd
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
+    return render_template('index.html')
+
+@main.route('/petfect', methods=['GET', 'POST'])
+def petfect():
     new_animals = Animal.query.order_by(Animal.data_created.desc()).limit(6).all()
     news = News.query.order_by(News.date.desc()).limit(9).all()
-    return render_template('index.html', new_animals=new_animals, news=news)
+    return render_template('petfect.html', new_animals=new_animals, news=news)
 
 
 @main.route('/about')
