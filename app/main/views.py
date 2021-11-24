@@ -50,7 +50,7 @@ def animal():
             animals = Animal.query.filter(
                 Animal.availability == 'Available').all()
         return render_template('animal.html', form1=form1, form2=form2,
-                               animals=animals), type
+                               animals=animals)
 
     if form2.is_submitted():
         breed = form2.animal_breed.data
