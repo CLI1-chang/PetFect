@@ -9,12 +9,16 @@
        <h2 class="section-heading">Contact Us</h2>
        <h3 class="section-subheading text-muted">We love to hear from you.</h3>
     </div>
+    {% if success %}
+    <p>Thank you for your message. We'll get back to you shortly.</p>
+    {% endif %}
     <form id="contactForm" action="{{ url_for('main.contact') }}" method=post>
        <div>
+           {{ form.hidden_tag() }}
           <p>
              <!-- name forms -->
              {{ form.name.label }} <br>
-             {{ form.name(placeholder='Your name')}}
+             {{ form.name(placeholder='Your name') }}
           </p>
           <p>
              {{ form.email.label }} <br>
@@ -22,8 +26,8 @@
           </p>
           <!-- Subject of your request -->
           <p>
-             {{form.subject.label }}<br>
-             {{form.subject(placeholder='Your subject ...')}}
+             {{ form.subject.label }}<br>
+             {{ form.subject(placeholder='Your subject ...') }}
           </p>
           <!-- Content of your request -->
           <p>

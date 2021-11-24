@@ -3,19 +3,17 @@ app.main views: render web pages with GET POST operations
 Reference: O'Reilly Flask Web Development
 """
 
-from flask import render_template, session, redirect, url_for, flash, jsonify,\
+from flask import render_template, redirect, url_for, flash, jsonify,\
     request, Response
-# from wtforms.validators import DataRequired
 from . import main
-from .. import db
-from datetime import datetime
+from .. import db, mail
 from ..models import Animal, User, Association, News
 from .forms import AnimalForm, ContactForm, NewsForm, animal_list, EditProfileForm,\
     SearchAnimal, SearchType, dispos_list, search_breed, avail_dict
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
+from flask_mail import Message
 from ..decorators import admin_required
-import pandas as pd
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -196,16 +194,23 @@ def get_img(id):
 @main.route('/contact', methods=["GET", "POST"])
 def contact():
     form = ContactForm()
+
     if request.method == 'POST':
-        name = request.form["name"]
-        email = request.form["email"]
-        subject = request.form["subject"]
-        message = request.form["message"]
-        time_stamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        res = pd.DataFrame({'name': name, 'email': email, 'subject': subject, 'message': message, 'timestamp': time_stamp}, index=[0])
-        res.to_csv('app/static/messages/contact_message_{}_{}_{}.csv'.format(name, email, time_stamp))
-        return render_template('contact.html', form=form)
-    else:
+        if form.validate() == False:
+            flash('All fields are required.')
+            flash(form.errors)
+            return render_template('contact.html', form=form)
+        else:
+            msg = Message(subject='[PetFect] ' + form.subject.data,
+                          sender='petfect.lilizeng@gmail.com',
+                          recipients=['petfect.lilizeng@gmail.com'])
+            msg.body = """
+                        From: %s <%s>
+                        Message: %s
+                        """ % (form.name.data, form.email.data, form.message.data)
+            mail.send(msg)
+            return render_template('contact.html', form=form, success=True)
+    elif request.method == 'GET':
         return render_template('contact.html', form=form)
 
 
@@ -301,6 +306,7 @@ def create_animal(id):
         flash('Disposition can not be left blank!')
     flash ('Must upload a photo!')
     return render_template('create_animal.html', admin_user = admin_user, form=form)
+
 
 @main.route('/update/<int:id>', methods=['GET', 'POST'])
 @admin_required

@@ -16,6 +16,14 @@ class Config:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Email
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_SSL', 'True')
+    MAIL_USERNAME = 'petfect.lilizeng@gmail.com'
+    MAIL_PASSWORD = 'lilizengpetfect21'
+    PETFECT_MAIL_SUBJECT_PREFIX = '[PetFect]'
+
     @staticmethod
     def init_app(app):
         pass

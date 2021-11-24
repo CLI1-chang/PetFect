@@ -5,7 +5,7 @@ Reference: O'Reilly Flask Web Development
 
 from flask_wtf import FlaskForm
 from wtforms import widgets, StringField, SubmitField, SelectField, SelectMultipleField, FileField, TextField, TextAreaField, BooleanField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length, Email
 
 
 class NameForm(FlaskForm):
@@ -92,8 +92,8 @@ class SearchType(FlaskForm):
 
 
 class ContactForm(FlaskForm):
-    name = TextField("Name")
-    email = TextField("Email")
-    subject = TextField("Subject")
-    message = TextAreaField("Message")
-    submit = SubmitField("Send")
+    name = StringField('Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired()])
+    subject = StringField('Subject', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send')
