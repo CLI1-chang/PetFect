@@ -94,4 +94,4 @@ class ContactForm(FlaskForm):
     email = TextField("Email")
     subject = TextField("Subject")
     message = TextAreaField("Message")
-    submit = SubmitField("Send")
+    submit = SubmitField("Send Message")

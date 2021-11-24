@@ -9,7 +9,7 @@ from flask import render_template, session, redirect, url_for, flash, jsonify,\
 from . import main
 from .. import db
 from datetime import datetime
-from ..models import Animal, User, Association, News
+from ..models import Animal, User, Association, News, Contact
 from .forms import AnimalForm, ContactForm, NewsForm, animal_list, EditProfileForm,\
     SearchAnimal, SearchType, dispos_list, search_breed, avail_dict
 from werkzeug.utils import secure_filename
@@ -196,15 +196,22 @@ def get_img(id):
 @main.route('/contact', methods=["GET", "POST"])
 def contact():
     form = ContactForm()
+    # if form.validate_on_submit():
     if request.method == 'POST':
         name = request.form["name"]
         email = request.form["email"]
         subject = request.form["subject"]
         message = request.form["message"]
-        time_stamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        res = pd.DataFrame({'name': name, 'email': email, 'subject': subject, 'message': message, 'timestamp': time_stamp}, index=[0])
-        res.to_csv('app/static/messages/contact_message_{}_{}_{}.csv'.format(name, email, time_stamp))
-        return render_template('contact.html', form=form)
+        send_time = datetime.now()
+        # save a copy on local disk as csv, also write to database
+        res = pd.DataFrame({'name': name, 'email': email, 'subject': subject, 'message': message, 'send_time': send_time.strftime("%Y-%m-%d-%H-%M-%S")}, index=[0])
+        res.to_csv('app/static/messages/contact_message_{}_{}_{}.csv'.format(name, email, send_time.strftime("%Y-%m-%d-%H-%M-%S")))
+        # return render_template('contact.html', form=form)
+        contact_item = Contact(name=name, email=email, subject=subject, message=message, send_time=send_time)
+        db.session.add(contact_item)
+        db.session.commit()
+        flash('Message successfully sent!')
+        return redirect(url_for('main.contact'))
     else:
         return render_template('contact.html', form=form)
 

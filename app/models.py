@@ -73,6 +73,15 @@ class News(db.Model):
     date = db.Column(db.DateTime(), default=datetime.utcnow())
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+class Contact(db.Model):
+    __tablename__ = 'contact'
+    # primary key of contact
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(64),  nullable=False)
+    subject = db.Column(db.String(64), nullable=False)
+    message = db.Column(db.String(64), nullable=False)
+    send_time = db.Column(db.DateTime(), default=datetime.utcnow())
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
