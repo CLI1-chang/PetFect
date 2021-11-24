@@ -69,11 +69,13 @@ class EditProfileAdminForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-search_type = ['Choose', 'Cats', 'Dogs', 'Others']
+search_type = ['Choose', 'Cats', 'Dogs', 'Fish', 'Reptiles', 'Others']
 search_breed = {'default': ['Choose'],
-                'Cats': ['Ragdoll', 'British Shorthair', 'Others'],
-                'Dogs': ['Golden Retriever', 'Pug', 'Others'],
-                'Others': ['Hamster', 'Reptile', 'Others']}
+                'Cats': ['Ragdoll', 'Exotic', 'British Shorthair', 'Maine Coon Cat', 'American Shorthair', 'Others'],
+                'Dogs': ['Golden Retriever', 'Labrador', 'French Bulldogs', 'Bulldog', 'German Shepherd Dogs', 'Pug', 'Others'],
+                'Fish': ['Betta', 'Goldfish', 'Angelfish', 'Catfish', 'Mollies', 'Others'],
+                'Reptiles': ['Leopard gecko', 'Corn snake', 'African sulcata tortoise', 'Ball python', 'Red-eared slider', 'Others'],
+                'Others': ['Hamster', 'Parakeet', 'Guinea pig', 'Others']}
 dispos_list = {'Choose': 0, 'Good with other animals': 1,
                'Good with Children': 2, 'Animal must be leashed at all times': 3}
 
